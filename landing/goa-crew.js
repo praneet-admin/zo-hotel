@@ -145,19 +145,38 @@
   // nights. Demo calendar; month is 0-based.
   var PEAK_RATE = 0.2;
   var PEAKS = [
-    { name: 'Diwali',                 from: new Date(2026, 10, 6),  to: new Date(2026, 10, 10) },
-    { name: 'Christmas and New Year', from: new Date(2026, 11, 20), to: new Date(2027, 0, 5) },
-    { name: 'Goa Carnival',           from: new Date(2027, 1, 6),   to: new Date(2027, 1, 9), goaOnly: true }
+    { name: 'Diwali',                       from: new Date(2026, 10, 6),  to: new Date(2026, 10, 10) },
+    { name: 'Christmas and New Year',       from: new Date(2026, 11, 20), to: new Date(2027, 0, 5) },
+    { name: 'the Republic Day weekend',     from: new Date(2027, 0, 23),  to: new Date(2027, 0, 26) },
+    { name: 'Goa Carnival',                 from: new Date(2027, 1, 6),   to: new Date(2027, 1, 9), only: 'goa' },
+    { name: 'Eid-ul-Fitr',                  from: new Date(2027, 2, 8),   to: new Date(2027, 2, 10) },
+    { name: 'Holi and Shigmo',              from: new Date(2027, 2, 20),  to: new Date(2027, 2, 22) },
+    { name: 'the Easter weekend',           from: new Date(2027, 2, 26),  to: new Date(2027, 2, 28) },
+    { name: 'the summer school holidays',   from: new Date(2027, 4, 1),   to: new Date(2027, 5, 6), only: 'goa' },
+    { name: 'the Independence Day weekend', from: new Date(2027, 7, 13),  to: new Date(2027, 7, 15) },
+    { name: 'Ganesh Chaturthi',             from: new Date(2027, 8, 4),   to: new Date(2027, 8, 14), only: 'mumbai' },
+    { name: 'Dussehra',                     from: new Date(2027, 9, 2),   to: new Date(2027, 9, 10) },
+    { name: 'Diwali',                       from: new Date(2027, 9, 27),  to: new Date(2027, 10, 1) },
+    { name: 'Christmas and New Year',       from: new Date(2027, 11, 20), to: new Date(2028, 0, 5) }
   ];
   function peakNights (a, b, prop) {
     var out = { nights: 0, names: [] };
     for (var x = new Date(a); x < b; x = addDays(x, 1)) {
       PEAKS.forEach(function (p) {
-        if (p.goaOnly && prop !== 'goa') return;
+        if (p.only && p.only !== prop) return;
         if (x >= p.from && x <= p.to) { out.nights++; if (out.names.indexOf(p.name) < 0) out.names.push(p.name); }
       });
     }
     return out;
+  }
+
+  function renderPeaks () {
+    var ul = document.getElementById('peakList'); if (!ul) return;
+    var today = new Date(); today.setHours(0, 0, 0, 0);
+    ul.innerHTML = PEAKS.filter(function (p) { return p.to >= today; }).map(function (p) {
+      var name = p.name.replace(/^the /, ''); name = name.charAt(0).toUpperCase() + name.slice(1);
+      return '<li><span>' + name + (p.only ? ' (' + (p.only === 'goa' ? 'Goa' : 'Mumbai') + ')' : '') + '</span><b>' + apRange(p.from, p.to) + '</b></li>';
+    }).join('');
   }
 
   function autoMix (people) {
@@ -892,6 +911,7 @@
     /* --- boot --- */
     // A free hold lasts 48 hours. If it has lapsed, say so and start clean;
     // a confirmed hold is kept.
+    renderPeaks();
     setProp(hold && hold.prop ? hold.prop : 'goa');
     if (hold && hold.status !== 'confirmed' && new Date(hold.expiresAt) < new Date()) {
       var lapsed = hold.ref; clear();

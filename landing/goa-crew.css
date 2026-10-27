@@ -601,3 +601,15 @@ em{font-style:italic;color:var(--gold-soft)}
 .seg + .rooms{margin-top:1.4rem}
 .room__b{gap:.55rem}
 .room__b .room__f{padding-top:1rem}
+
+/* peak dates list */
+.peaks{margin-top:1.4rem;border-top:1px solid rgba(255,255,255,.14);padding-top:1rem}
+.peaks summary{cursor:pointer;font-weight:600;color:var(--gold);list-style:none}
+.peaks summary::-webkit-details-marker{display:none}
+.peaks summary::after{content:" +";}
+.peaks[open] summary::after{content:" \2212";}
+.peaks p{margin-top:.6rem;font-size:.9rem;color:#c9d4e0}
+.peaks__list{margin-top:.6rem;display:grid;gap:0;font-size:.9rem}
+.peaks__list li{display:flex;justify-content:space-between;gap:1rem;padding:.45rem 0;border-bottom:1px solid rgba(255,255,255,.1);color:#e6ecf2}
+.peaks__list b{font-weight:500;color:#fff;white-space:nowrap}
+.peaks__list{padding-left:0;list-style:none}
