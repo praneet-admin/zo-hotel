@@ -725,14 +725,14 @@
       if (why === 'drop') {
         T.textContent = 'Fewer guests';
         H.textContent = 'Update your booking instead';
-        B.innerHTML = '<p>Update your booking for ' + word(x.afterPeople) + ' guests on ' + x.range + '. We fit the rooms to your group, and your new total is <b>' + money(x.afterTotal) + '</b>.</p>' +
+        B.innerHTML = '<p>Update your booking from ' + word(x.people) + ' to ' + word(x.afterPeople) + ' guests for ' + x.range + '. Your rooms change from ' + mixText(x.rooms) + ' to ' + mixText(x.afterRooms) + ', and your total drops from ' + money(x.nowTotal) + ' to <b>' + money(x.afterTotal) + '</b>.</p>' +
           '<p class="sheet__p2">Nothing changes until you confirm. Taxes and fees are not included in this demo.</p>';
         P.textContent = 'Update My Booking'; S.textContent = 'Keep the Booking';
       } else if (why === 'dates') {
         T.textContent = 'New dates';
         H.textContent = 'Change your dates instead';
         B.innerHTML = '<p>Change your dates up to 72 hours before check-in. You pay the rate for the new nights, and your rooms move with you.</p>' +
-          '<p class="sheet__p2">If the new dates are full, the amount you paid becomes Zo credit, valid for 12 months at Zo Hotel Goa or Mumbai.</p>';
+          (hold && hold.status === 'confirmed' ? '<p class="sheet__p2">If the new dates are fully booked, your payment becomes Zo credit, valid for 12 months at Zo Hotel Goa or Mumbai.</p>' : '<p class="sheet__p2">Your rooms are held free, so nothing has been charged.</p>');
         P.textContent = 'Change My Dates'; S.textContent = 'Keep the Booking';
       } else {
         T.textContent = 'Change of plan';
@@ -742,12 +742,25 @@
       }
     }
 
+    // Offer only what would really change something for this booking.
+    function exitOptions () {
+      var x = exitModel(), ok = [];
+      if (!PROPS[hold && hold.prop ? hold.prop : PROP].solo && x.people > 2 && x.afterTotal < x.nowTotal) ok.push('drop');
+      ok.push('dates');
+      if (hold && hold.status === 'confirmed') ok.push('plan');
+      return ok;
+    }
+    function mixText (keys) {
+      var n = {}; keys.forEach(function (k) { n[k] = (n[k] || 0) + 1; });
+      return Object.keys(n).map(function (k) { return word(n[k]) + ' ' + ROOMS[k].name + (n[k] === 1 ? '' : 's'); }).join(' and ');
+    }
+
     function openExit (why) {
       opener = document.activeElement;
-      var solo = PROPS[hold && hold.prop ? hold.prop : PROP].solo;
-      var dropOpt = sheet.querySelector('input[name="why"][value="drop"]');
-      if (dropOpt) dropOpt.closest('label').hidden = solo;
-      if (solo && why === 'drop') why = 'dates';
+      var ok = exitOptions();
+      sheet.querySelectorAll('input[name="why"]').forEach(function (i) { i.closest('label').hidden = ok.indexOf(i.value) < 0; });
+      sheet.querySelector('.sheet__why').hidden = ok.length < 2;
+      if (ok.indexOf(why) < 0) why = ok[0];
       var r = sheet.querySelector('input[name="why"][value="' + why + '"]'); if (r) r.checked = true;
       fillExit(why);
       sheet.hidden = false; document.body.style.overflow = 'hidden';
