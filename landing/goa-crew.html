@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&amp;family=Inter:wght@400;500;600&amp;display=swap">
-<link rel="stylesheet" href="goa-crew.css?v=70">
+<link rel="stylesheet" href="goa-crew.css?v=72">
 </head>
 <body>
 <a class="skip" href="#main">Skip to main content</a>
@@ -29,9 +29,9 @@
       <a href="#included">Why Zo</a>
       <a href="#destinations">Destinations</a>
       <a href="#plans">Booking changes</a>
-      <a href="#block">My Booking</a>
+      <a href="#block" id="navMine">My Booking</a>
       <a class="cta cta--quiet" href="../zo_hotel.html">Log In</a>
-      <a class="cta cta--gold" href="#widget">Hold Rooms</a>
+      <a class="cta cta--gold" href="#widget" id="navCta">Hold Rooms</a>
     </div>
   </div>
 </nav>
@@ -68,7 +68,7 @@
         <select id="wDest"><option value="goa">Zo Hotel Goa</option><option value="mumbai">Zo Hotel Mumbai</option></select></label>
       <label class="wf"><span>Check-in <i>*</i></span><input type="date" id="wIn" required></label>
       <label class="wf"><span>Check-out <i>*</i></span><input type="date" id="wOut" required></label>
-      <label class="wf"><span>Guests</span><input type="number" id="wPeople" aria-label="Number of guests" min="2" max="12" value="6" inputmode="numeric"></label>
+      <label class="wf"><span>Guests</span><input type="number" id="wPeople" aria-label="Number of guests" min="1" max="12" value="6" inputmode="numeric"></label>
       <label class="wf"><span>Full name</span><input type="text" id="wName" placeholder="Name on the booking" autocomplete="name"></label>
       <div class="widget__go"><button class="cta cta--gold" type="submit">Check Availability</button></div>
     </div>
@@ -184,6 +184,7 @@
         <div class="booked" id="bookedNote" hidden>
           <b>You&rsquo;re booked.</b> <span id="bookedLine"></span>
           <ul class="tick"><li>A driver meets your flight, train or bus on stays of three nights or more</li></ul>
+          <div class="booked__acts"><button class="cta cta--quiet" type="button" id="addCal">Add to Calendar</button><button class="cta cta--quiet" type="button" id="copyRef">Copy Reference</button></div>
         </div>
         <span class="lab" id="mgRoomsLab">Your rooms</span>
         <div class="corridor__row" id="mgCorridor"></div>
@@ -385,6 +386,6 @@
   </div>
 </div>
 
-<script src="goa-crew.js?v=70"></script>
+<script src="goa-crew.js?v=72"></script>
 </body>
 </html>

@@ -613,3 +613,11 @@ em{font-style:italic;color:var(--gold-soft)}
 .peaks__list li{display:flex;justify-content:space-between;gap:1rem;padding:.45rem 0;border-bottom:1px solid rgba(255,255,255,.1);color:#e6ecf2}
 .peaks__list b{font-weight:500;color:#fff;white-space:nowrap}
 .peaks__list{padding-left:0;list-style:none}
+
+/* usability pass */
+#navMine{position:relative}
+#navMine.has-dot::after{content:"";position:absolute;top:.15rem;right:-.55rem;width:.45rem;height:.45rem;border-radius:50%;background:var(--gold)}
+.booked__acts{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.9rem}
+.booked__acts .cta{padding:.6rem 1.1rem;font-size:.9rem}
+.brand__t{white-space:nowrap}
+@media (max-width:420px){.brand__t{font-size:1.15rem;letter-spacing:.08em}.nav__r{gap:.5rem}.nav__r .cta{padding:.55rem .9rem;font-size:.85rem}}

@@ -582,9 +582,16 @@
       });
     });
 
-    function save () { try { localStorage.setItem(STORE_KEY, JSON.stringify(hold)); } catch (e) {} }
+    function save () { try { localStorage.setItem(STORE_KEY, JSON.stringify(hold)); } catch (e) {} syncNav(); }
+    // The nav and the phone bar point at the booking once one exists.
+    function syncNav () {
+      var cta = document.getElementById('navCta'), mine = document.getElementById('navMine');
+      var label = hold ? (hold.status === 'confirmed' ? 'View Booking' : 'View Hold') : 'Hold Rooms';
+      if (cta) { cta.textContent = label; cta.setAttribute('href', hold ? '#block' : '#widget'); }
+      if (mine) mine.classList.toggle('has-dot', !!hold);
+    }
     function load () { try { return JSON.parse(localStorage.getItem(STORE_KEY) || 'null'); } catch (e) { return null; } }
-    function clear () { hold = null; try { localStorage.removeItem(STORE_KEY); } catch (e) {} }
+    function clear () { hold = null; try { localStorage.removeItem(STORE_KEY); } catch (e) {} syncNav(); }
 
     /* ------------------------------------------------------------------
        3b. Booking sheets: review and pay, change dates, change room,
@@ -860,6 +867,36 @@
       var wIn = document.getElementById('wIn'), wOut = document.getElementById('wOut');
       var iso = function (d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
       wIn.min = iso(today); wOut.min = iso(addDays(today, 1));
+      var wNote = document.getElementById('wNote');
+      // As dates are picked: keep check-out after check-in, count the
+      // nights, and say upfront when the stay falls on peak dates.
+      var liveDates = function () {
+        var a = wIn.value ? new Date(wIn.value + 'T00:00:00') : null;
+        if (a) {
+          wOut.min = iso(addDays(a, 1));
+          if (!wOut.value || new Date(wOut.value + 'T00:00:00') <= a) wOut.value = iso(addDays(a, 1));
+        }
+        var b = wOut.value ? new Date(wOut.value + 'T00:00:00') : null;
+        if (!a || !b || b <= a) { say(wNote, ''); return; }
+        var n = nightsBetween(a, b), pk = peakNights(a, b, document.getElementById('wDest').value);
+        say(wNote, apRange(a, b) + ' \u00b7 ' + word(n) + (n === 1 ? ' night' : ' nights') +
+          (pk.nights ? '. These dates fall during ' + pk.names.join(' and ') + ', a peak period, so rooms fill early.' : '.'));
+      };
+      wIn.addEventListener('change', liveDates); wOut.addEventListener('change', liveDates);
+      document.getElementById('wDest').addEventListener('change', function () {
+        var wp = document.getElementById('wPeople'); if (wp && !hold) wp.value = PROPS[this.value].defaultPeople; liveDates();
+      });
+      if (!hold) {
+        try {
+          var last = JSON.parse(localStorage.getItem('zo-last-search') || 'null');
+          if (last && last.a && new Date(last.a + 'T00:00:00') >= today) {
+            document.getElementById('wDest').value = last.dest; setProp(last.dest);
+            wIn.value = last.a; wOut.value = last.b;
+            document.getElementById('wPeople').value = last.n; if (last.name) document.getElementById('wName').value = last.name;
+            liveDates();
+          }
+        } catch (e3) {}
+      }
       widget.addEventListener('submit', function (e) {
         e.preventDefault();
         var note = document.getElementById('wNote');
@@ -871,7 +908,12 @@
         var n = Number(document.getElementById('wPeople').value) || 6;
         state.people = Math.min(12, Math.max(1, n)); state.mix = autoMix(state.people); state.mixTouched = false;
         var nm = document.getElementById('wName').value.trim(); if (nm) state.names[0] = nm;
-        if (hold) { clear(); el.manage.hidden = true; form.hidden = false; }
+        if (hold) {
+          say(note, 'You already have booking ' + hold.ref + '. Cancel it first to search new dates.');
+          document.getElementById('block').scrollIntoView({ behavior: reduce.matches ? 'auto' : 'smooth' });
+          return;
+        }
+        try { localStorage.setItem('zo-last-search', JSON.stringify({ dest: document.getElementById('wDest').value, a: wIn.value, b: wOut.value, n: state.people, name: nm })); } catch (e2) {}
         state.inDate = null; state.outDate = null;
         view = new Date(a.getFullYear(), a.getMonth(), 1); drawCal();
         pickDay(a); if (state.inDate) pickDay(b);
@@ -912,6 +954,27 @@
     // A free hold lasts 48 hours. If it has lapsed, say so and start clean;
     // a confirmed hold is kept.
     renderPeaks();
+    syncNav();
+    // Booked: save the stay to a calendar, or copy the reference.
+    document.getElementById('addCal').addEventListener('click', function () {
+      if (!hold) return;
+      var d = function (x) { x = new Date(x); return x.getFullYear() + String(x.getMonth() + 1).padStart(2, '0') + String(x.getDate()).padStart(2, '0'); };
+      var P = PROPS[hold.prop || PROP];
+      var ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Zo Hotel//Booking//EN', 'BEGIN:VEVENT',
+        'UID:' + hold.ref + '@zohotel', 'DTSTAMP:' + d(new Date()) + 'T000000Z',
+        'DTSTART;VALUE=DATE:' + d(hold.inDate), 'DTEND;VALUE=DATE:' + d(hold.outDate),
+        'SUMMARY:' + P.name + ' \u00b7 ' + hold.ref, 'LOCATION:' + P.name + ', ' + P.place,
+        'DESCRIPTION:Booking ' + hold.ref + '. Manage it on the Zo Hotel site.', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }));
+      a.download = hold.ref + '.ics'; document.body.appendChild(a); a.click(); a.remove();
+      toast('Calendar file saved. Open it to add your stay to your calendar.');
+    });
+    document.getElementById('copyRef').addEventListener('click', function () {
+      if (!hold) return;
+      var ref = hold.ref;
+      copyText(ref, function (ok) { toast(ok ? 'Booking reference ' + ref + ' copied.' : 'Your booking reference is ' + ref + '.'); });
+    });
     setProp(hold && hold.prop ? hold.prop : 'goa');
     if (hold && hold.status !== 'confirmed' && new Date(hold.expiresAt) < new Date()) {
       var lapsed = hold.ref; clear();
