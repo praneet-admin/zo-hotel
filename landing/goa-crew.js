@@ -228,10 +228,10 @@
       T('blockEyebrow', solo ? 'Your Mumbai stay' : 'Your Goa block');
       T('mixLab', solo ? 'Room' : 'Rooms');
       T('corridorLab', solo ? 'High floor, quiet side' : 'Garden wing, one corridor, numbers fixed at payment');
-      T('perHeadLab', solo ? 'Total for the stay' : 'Each person\u2019s share');
+      T('perHeadLab', 'Total for the stay');
       T('blockFine', solo ? 'Held free for 48 hours; nothing is charged. Rate covers the room for every night booked. Taxes and fees are not included in this demo.'
                           : 'Held free for 48 hours; nothing is charged. Rates are per room per night. Taxes and fees are not included in this demo.');
-      var sh = document.getElementById('shareSplit'); if (sh) sh.hidden = solo;
+      var sh = document.getElementById('shareSplit'); if (sh) sh.hidden = true;
       if (!keepMix) { state.people = P.defaultPeople; var wp = document.getElementById('wPeople'); if (wp) wp.value = state.people; }
       var bp = document.getElementById('blockProp'); if (bp) bp.textContent = PROPS[p].name + ' \u00b7 ' + PROPS[p].place;
       var mh = document.getElementById('mgHotel'); if (mh) mh.textContent = PROPS[p].name;
@@ -391,16 +391,16 @@
         ? c.range + ' \u00b7 ' + word(c.nights) + (c.nights === 1 ? ' night' : ' nights') + ' \u00b7 ' + word(state.people) + ' of you'
         : (PROPS[PROP].solo ? 'Your room appears here once you add nights' : 'Your rooms appear here once you add dates');
       var bl = document.getElementById('billLine');
-      if (bl) bl.textContent = datesOk ? word(c.rooms.length) + (c.rooms.length === 1 ? ' room' : ' rooms') + ' \u00d7 ' + word(c.nights) + (c.nights === 1 ? ' night' : ' nights') + (state.people > 1 ? ', split ' + word(state.people) + ' ways' : ', one guest') : (PROPS[PROP].solo ? 'Your rate appears once dates are set.' : 'Each person\u2019s share appears once dates are set.');
+      if (bl) bl.textContent = datesOk ? word(c.rooms.length).replace(/^./, function (ch) { return ch.toUpperCase(); }) + (c.rooms.length === 1 ? ' room' : ' rooms') + ' \u00d7 ' + word(c.nights) + (c.nights === 1 ? ' night' : ' nights') + '' : 'Your total appears once dates are set.';
       var hb = document.getElementById('holdBtn'); if (hb) hb.disabled = !datesOk;
 
       var fits = c.beds >= state.people && c.rooms.length > 0;
       var spare = c.beds - state.people;
-      if (state.people === 1 && c.rooms.length === 1) say(el.groupOut, 'One room, one guest. Add a colleague and the split appears.');
+      if (state.people === 1 && c.rooms.length === 1) say(el.groupOut, '');
       else if (!c.rooms.length) say(el.groupOut, 'Add at least one room.');
       else if (!fits) say(el.groupOut, 'Those rooms sleep ' + word(c.beds) + '; you are ' + word(state.people) + '. Add a room or choose bigger ones.');
       else if (spare > 0) say(el.groupOut, word(spare).replace(/^./, function (ch) { return ch.toUpperCase(); }) + (spare === 1 ? ' bed' : ' beds') + ' nobody sleeps in — you are paying for ' + (spare === 1 ? 'it' : 'them') + '. A smaller mix may fit exactly.');
-      else say(el.groupOut, state.people === 1 ? 'One room, one guest. Add a colleague and the split appears.' : 'An exact fit: ' + word(c.rooms.length) + (c.rooms.length === 1 ? ' room' : ' rooms') + ', ' + word(c.beds) + ' beds, ' + word(state.people) + ' of you.');
+      else say(el.groupOut, state.people === 1 ? '' : 'An exact fit: ' + word(c.rooms.length) + (c.rooms.length === 1 ? ' room' : ' rooms') + ', ' + word(c.beds) + ' beds, ' + word(state.people) + ' of you.');
 
       var ok = datesOk && fits && c.rooms.length <= CORRIDOR_ROOMS;
       if (steps.corridor) steps.corridor.classList.toggle('is-off', !(datesOk && fits));
@@ -421,7 +421,7 @@
     function renderShares (rebuild) {
       var c = compute();
       el.totalOut.textContent = c.nights ? money(c.total) : '—';
-      el.perHead.textContent = c.nights ? money(c.each) : '—';
+      el.perHead.textContent = c.nights ? money(c.total) : '—';
       if (rebuild) {
         var html = '';
         for (var i = 0; i < state.people; i++) {
@@ -483,15 +483,11 @@
         ' · ' + c.range + ' · ' + word(c.nights) + (c.nights === 1 ? ' night' : ' nights') + ' · ' + word(state.people) + ' of you.';
       el.mgCorridor.innerHTML = corridorHTML(c.rooms);
       el.mgRooms.textContent = c.rooms.map(function (r) { return r.num + ' ' + ROOMS[r.type].name; }).join(' · ') + '. One corridor, garden wing.';
-      var rows = '';
-      for (var i = 0; i < state.people; i++) {
-        rows += '<li><span>' + escapeHTML(nameOf(i) || 'Friend ' + (i + 1)) + ' · room ' + c.rooms[c.roomOf[i]].num + '</span><b>' + money(c.each) + '</b></li>';
-      }
-      el.mgShares.innerHTML = rows + '<li><span>Total</span><b>' + money(c.total) + '</b></li>';
+      el.mgShares.innerHTML = '<li><span>Total \u00b7 ' + word(c.rooms.length) + (c.rooms.length === 1 ? ' room' : ' rooms') + ', ' + word(c.nights) + (c.nights === 1 ? ' night' : ' nights') + '</span><b>' + money(c.total) + '</b></li>';
       say(el.mgOut, msg || '');
       var rl = document.getElementById('mgRoomsLab'); if (rl) rl.textContent = PROPS[PROP].solo ? 'Your room' : 'Rooms blocked for you';
       var addBtn = document.querySelector('[data-mg="add"]'); if (addBtn) addBtn.textContent = PROPS[PROP].solo ? 'Add a Colleague' : 'Add a Friend';
-      var relBtn = document.querySelector('[data-mg="release"]'); if (relBtn) relBtn.hidden = state.people <= 1;
+      var relBtn = document.querySelector('[data-mg="release"]'); if (relBtn) relBtn.hidden = true;
       renderRequests();
       var booked = document.getElementById('bookedNote'), payBtn = document.querySelector('[data-mg="pay"]'), allBtn = document.getElementById('releaseAllBtn'), st = document.getElementById('mgStatus');
       var isBooked = hold.status === 'confirmed';
@@ -597,8 +593,7 @@
       document.getElementById('rvList').innerHTML = rows([
         ['Hotel', P.name], ['Dates', c.range + ' \u00b7 ' + word(c.nights) + (c.nights === 1 ? ' night' : ' nights')],
         ['Rooms', c.rooms.map(function (r) { return r.num + ' ' + ROOMS[r.type].name; }).join(', ')],
-        ['Guests', word(state.people)], ['Total room cost', money(c.total)],
-        state.people > 1 ? ['Each person', money(c.each)] : ['Your rate', money(c.total)]]);
+        ['Guests', word(state.people)], ['Total', money(c.total)]]);
       document.getElementById('rvPolicy').textContent = 'Flexible rate: change the dates up to 72 hours before check-in and pay the new dates\u2019 rate. Taxes and fees are not included in this demo.';
       document.getElementById('gstWrap').hidden = !P.solo;
       openSheet('reviewSheet');
@@ -608,7 +603,7 @@
       hold.status = 'confirmed'; hold.gst = !!document.getElementById('rvGst').checked;
       hold.paid = document.querySelector('input[name="pay"]:checked').value; save();
       closeSheet('reviewSheet'); showManage('');
-      toast('You\u2019re booked \u00b7 ' + hold.ref + '. ' + (state.people > 1 ? 'Each person pays ' + money(c.each) : 'Your total is ' + money(c.total)) + '. Demo payment \u2014 nothing was charged.' + (hold.gst ? ' The GST invoice goes to your company before checkout.' : ''));
+      toast('You\u2019re booked \u00b7 ' + hold.ref + '. ' + 'Your total is ' + money(c.total) + '. Demo payment \u2014 nothing was charged.' + (hold.gst ? ' The GST invoice goes to your company before checkout.' : ''));
     });
 
     // --- change the dates, with the difference shown first ---
@@ -732,10 +727,10 @@
       if (why === 'drop') {
         T.textContent = 'One friend out, ' + word(x.afterPeople) + ' still in';
         H.textContent = 'Keep the trip for the ' + word(x.afterPeople) + ' of you';
-        B.innerHTML = '<p>Keep ' + word(nR) + (nR === 1 ? ' room' : ' rooms') + ' on the same ' + (PROPS[PROP].solo ? 'quiet floor' : 'garden-wing corridor') + ' for ' + x.range + ', and the one empty room goes back. The rates on your ' + word(nR) + (nR === 1 ? ' room hold' : ' rooms hold') + ', and each of the ' + word(x.afterPeople) + ' of you pays <b>' + money(x.afterEach) + '</b> for the stay.</p>' +
-          '<p class="sheet__p2">Nothing here changes until you choose below, and the figure sits on the booking page for all ' + word(x.afterPeople) + ' to see. Taxes and fees are not included in this demo.</p>';
+        B.innerHTML = '<p>Keep ' + word(nR) + (nR === 1 ? ' room' : ' rooms') + ' on the same ' + (PROPS[PROP].solo ? 'quiet floor' : 'garden-wing corridor') + ' for ' + x.range + ', and the one empty room goes back. The rates on your ' + word(nR) + (nR === 1 ? ' room hold' : ' rooms hold') + ', and the new total is <b>' + money(x.afterTotal) + '</b>.</p>' +
+          '<p class="sheet__p2">Nothing here changes until you choose below, and the new total shows on the booking page. Taxes and fees are not included in this demo.</p>';
           '<p class="sheet__p2">If the dates are the problem rather than the headcount, you can keep the booking and move it up to 72 hours before check-in, paying the new dates\u2019 rate, subject to availability. If the whole plan has changed rather than one seat in it, the link below does that instead, and nobody will argue with you.</p>';
-        P.textContent = 'Keep ' + word(nR).replace(/^./, function (ch) { return ch.toUpperCase(); }) + (nR === 1 ? ' Room' : ' Rooms'); S.textContent = 'Show Each Share';
+        P.textContent = 'Keep ' + word(nR).replace(/^./, function (ch) { return ch.toUpperCase(); }) + (nR === 1 ? ' Room' : ' Rooms'); S.textContent = 'Keep All Rooms';
       } else if (why === 'dates') {
         T.textContent = 'Same rooms, different nights';
         H.textContent = 'Change the dates and keep the rooms';
@@ -784,8 +779,7 @@
       var why = sheet.querySelector('input[name="why"]:checked').value;
       closeExit();
       if (!hold) return;
-      if (why === 'drop') { showManage('Each person\u2019s share, as it stands.'); var sh = document.getElementById('mgShares'); if (sh) sh.scrollIntoView({ block: 'center', behavior: reduce.matches ? 'auto' : 'smooth' }); }
-      else showManage('Kept as it was.');
+      showManage('Kept as it was.');
     });
     document.getElementById('exitGo').addEventListener('click', function () {
       closeExit();

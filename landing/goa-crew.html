@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&amp;family=Inter:wght@400;500;600&amp;display=swap">
-<link rel="stylesheet" href="goa-crew.css?v=60">
+<link rel="stylesheet" href="goa-crew.css?v=61">
 </head>
 <body>
 <a class="skip" href="#main">Skip to main content</a>
@@ -161,11 +161,11 @@
       <aside class="blockcard__r">
         <div class="bill">
           <div><span id="perHeadLab">Each person</span><strong id="perHead">&mdash;</strong></div>
-          <div><span>Total room cost</span><strong id="totalOut" class="bill__sm">&mdash;</strong></div>
+          <div hidden><span>Total room cost</span><strong id="totalOut" class="bill__sm">&mdash;</strong></div>
           <p class="fine" id="billLine">&mdash;</p>
         </div>
         <button class="cta cta--gold cta--wide" type="submit" id="holdBtn">Hold These Rooms</button>
-        <button class="cta cta--quiet cta--wide" type="button" id="shareSplit">Send Split to Group</button>
+        <button class="cta cta--quiet cta--wide" type="button" id="shareSplit" hidden>Send Split to Group</button>
         <p class="calc__copied" id="shareStatus" role="status"></p>
         <p class="step__out step__out--err" id="holdErr" role="alert"></p>
         <p class="fine fine--c" id="blockFine">Free for 48 hours. Nothing is charged. Taxes and fees are not included in this demo.</p>
@@ -198,10 +198,10 @@
         <div class="acts acts--col">
           <button class="cta cta--gold" type="button" data-mg="pay">Confirm the Hold</button>
           <button class="cta cta--quiet" type="button" data-mg="dates">Change the Dates</button>
-          <button class="cta cta--quiet" type="button" data-mg="room">Change the Room</button>
-          <button class="cta cta--quiet" type="button" data-mg="request">Add a Request</button>
-          <button class="cta cta--quiet" type="button" data-mg="add">Add a Friend</button>
-          <button class="cta cta--quiet" type="button" data-mg="release">Release One Room</button>
+          <button class="cta cta--quiet" type="button" data-mg="room" hidden>Change the Room</button>
+          <button class="cta cta--quiet" type="button" data-mg="request" hidden>Add a Request</button>
+          <button class="cta cta--quiet" type="button" data-mg="add" hidden>Add a Friend</button>
+          <button class="cta cta--quiet" type="button" data-mg="release" hidden>Release One Room</button>
           <button class="cta cta--quiet cta--danger" type="button" data-mg="releaseAll" id="releaseAllBtn">Release All Rooms</button>
         </div>
         <p class="step__out" id="mgOut" role="status"></p>
@@ -226,7 +226,7 @@
     <div class="qa qa--light" id="qa">
       <details open>
         <summary>A friend dropped out. Is the Goa booking lost?</summary>
-        <div><p>No. Their room goes back, the other rooms keep their rate, and everyone&rsquo;s new share shows on the booking.</p></div>
+        <div><p>No. Their room goes back, the other rooms keep their rate, and the new total shows on the booking.</p></div>
       </details>
       <details>
         <summary>My Mumbai meeting moved. Can my stay move too?</summary>
@@ -262,7 +262,7 @@
       </div></article>
       <article class="card rev"><div class="card__b">
         <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-        <p>&ldquo;Seven of us, three rooms, one corridor, and nobody&rsquo;s card took the hit. When one dropped out, the rates on our rooms didn&rsquo;t move.&rdquo;</p>
+        <p>&ldquo;Seven of us, three rooms, one corridor, and booking took five minutes. When one dropped out, the rates on our rooms didn&rsquo;t move.&rdquo;</p>
         <footer><span class="avatar">AD</span><div><b>Arjun D.</b><small>Zo Hotel Goa &middot; seven friends, three rooms, long weekend</small></div></footer>
       </div></article>
       <article class="card rev"><div class="card__b">
@@ -381,6 +381,6 @@
   </div>
 </div>
 
-<script src="goa-crew.js?v=60"></script>
+<script src="goa-crew.js?v=61"></script>
 </body>
 </html>
