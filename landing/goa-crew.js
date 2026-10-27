@@ -141,6 +141,25 @@
     return (m === 11 || m === 0) && (day === 5 || day === 6);
   }
 
+  // Peak dates: moving a booking into them carries a 20% charge on those
+  // nights. Demo calendar; month is 0-based.
+  var PEAK_RATE = 0.2;
+  var PEAKS = [
+    { name: 'Diwali',                 from: new Date(2026, 10, 6),  to: new Date(2026, 10, 10) },
+    { name: 'Christmas and New Year', from: new Date(2026, 11, 20), to: new Date(2027, 0, 5) },
+    { name: 'Goa Carnival',           from: new Date(2027, 1, 6),   to: new Date(2027, 1, 9), goaOnly: true }
+  ];
+  function peakNights (a, b, prop) {
+    var out = { nights: 0, names: [] };
+    for (var x = new Date(a); x < b; x = addDays(x, 1)) {
+      PEAKS.forEach(function (p) {
+        if (p.goaOnly && prop !== 'goa') return;
+        if (x >= p.from && x <= p.to) { out.nights++; if (out.names.indexOf(p.name) < 0) out.names.push(p.name); }
+      });
+    }
+    return out;
+  }
+
   function autoMix (people) {
     if (people <= 2) return { garden: 1, resort: 0, suite: 0 };
     if (people % 2 === 0) return { garden: people / 2, resort: 0, suite: 0 };
@@ -370,7 +389,7 @@
     function compute () {
       var rooms = assign(state.mix, state.people), beds = bedsOf(state.mix);
       var nights = (state.inDate && state.outDate) ? nightsBetween(state.inDate, state.outDate) : 0;
-      var total = rateOf(state.mix) * nights, each = state.people ? total / state.people : 0;
+      var total = rateOf(state.mix) * nights + ((hold && hold.fee) || 0), each = state.people ? total / state.people : 0;
       var roomOf = [], idx = 0;
       rooms.forEach(function (r, ri) { for (var u = 0; u < r.used; u++) roomOf[idx++] = ri; });
       return { rooms: rooms, beds: beds, nights: nights, total: total, each: each, roomOf: roomOf,
@@ -483,7 +502,7 @@
         ' · ' + c.range + ' · ' + word(c.nights) + (c.nights === 1 ? ' night' : ' nights') + ' · ' + word(state.people) + (state.people === 1 ? ' guest.' : ' guests.');
       el.mgCorridor.innerHTML = corridorHTML(c.rooms);
       el.mgRooms.textContent = c.rooms.map(function (r) { return r.num + ' ' + ROOMS[r.type].name; }).join(' · ') + (PROPS[PROP].solo ? '.' : ', side by side in the garden wing.');
-      el.mgShares.innerHTML = '<li><span>Total \u00b7 ' + word(c.rooms.length) + (c.rooms.length === 1 ? ' room' : ' rooms') + ', ' + word(c.nights) + (c.nights === 1 ? ' night' : ' nights') + '</span><b>' + money(c.total) + '</b></li>';
+      el.mgShares.innerHTML = (hold.fee ? '<li><span>Peak-date charge \u00b7 ' + hold.feeWhy + '</span><b>' + money(hold.fee) + '</b></li>' : '') + '<li><span>Total \u00b7 ' + word(c.rooms.length) + (c.rooms.length === 1 ? ' room' : ' rooms') + ', ' + word(c.nights) + (c.nights === 1 ? ' night' : ' nights') + '</span><b>' + money(c.total) + '</b></li>';
       say(el.mgOut, msg || '');
       var rl = document.getElementById('mgRoomsLab'); if (rl) rl.textContent = PROPS[PROP].solo ? 'Your room' : 'Your rooms';
       var addBtn = document.querySelector('[data-mg="add"]'); if (addBtn) addBtn.textContent = PROPS[PROP].solo ? 'Add a Colleague' : 'Add a Friend';
@@ -576,10 +595,10 @@
     }
     function totalFor (mix, a, b) { return rateOf(mix) * nightsBetween(a, b); }
     var CHANGE_FEE = 0;                 // no change fee: the guest pays the new dates' rate
-    function diffRows (oldT, newT, people, fee) {
+    function diffRows (oldT, newT, people, fee, feeLabel) {
       fee = fee || 0; newT = newT + fee;
       var d = newT - oldT;
-      return [['Current total', money(oldT)]].concat(fee ? [['Change fee', money(fee)]] : []).concat([['New total', money(newT)],
+      return [['Current total', money(oldT)]].concat(fee ? [['Rate for the new nights', money(newT - fee)], [feeLabel || 'Change fee', money(fee)]] : []).concat([['New total', money(newT)],
               ['Difference', (d > 0 ? '+' : d < 0 ? '\u2212' : '') + money(Math.abs(d)), d > 0 ? 'up' : d < 0 ? 'down' : ''],
               ]);
     }
@@ -591,7 +610,7 @@
         ['Hotel', P.name], ['Dates', c.range + ' \u00b7 ' + word(c.nights) + (c.nights === 1 ? ' night' : ' nights')],
         ['Rooms', c.rooms.map(function (r) { return r.num + ' ' + ROOMS[r.type].name; }).join(', ')],
         ['Guests', word(state.people).replace(/^./, function (ch) { return ch.toUpperCase(); })], ['Total', money(c.total)]]);
-      document.getElementById('rvPolicy').textContent = 'Flexible rate: change the dates up to 72 hours before check-in and pay the new dates\u2019 rate. Taxes and fees are not included in this demo.';
+      document.getElementById('rvPolicy').textContent = 'Flexible rate: change the dates up to 72 hours before check-in and pay the new dates\u2019 rate. Moving into peak dates adds 20% to those nights. Taxes and fees are not included in this demo.';
       document.getElementById('gstWrap').hidden = !P.solo;
       openSheet('reviewSheet');
     }
@@ -620,18 +639,24 @@
       for (var x = new Date(a); x < b; x = addDays(x, 1)) if (nightFull(x)) {
         say(note, apDate(x) + ' is full at ' + PROPS[PROP].name + '. If you still need those dates, your payment becomes Zo credit for 12 months.'); return;
       }
-      var oldT = totalFor(state.mix, state.inDate, state.outDate), newT = totalFor(state.mix, a, b);
-      document.getElementById('cdDiff').innerHTML = rows(diffRows(oldT, newT, state.people, CHANGE_FEE));
-      say(note, apRange(a, b) + ' has rooms. You pay the rate for these nights. Nothing changes until you confirm.');
-      ok.disabled = false; ok.dataset.a = inI.value; ok.dataset.b = outI.value;
+      var oldT = compute().total, newT = totalFor(state.mix, a, b);
+      var pk = peakNights(a, b, PROP), fee = Math.round(rateOf(state.mix) * pk.nights * PEAK_RATE);
+      var names = pk.names.join(' and ');
+      document.getElementById('cdDiff').innerHTML = rows(diffRows(oldT, newT, state.people, fee, 'Peak-date charge (' + names + ')'));
+      say(note, fee
+        ? apRange(a, b) + ' has rooms. ' + word(pk.nights).replace(/^./, function (ch) { return ch.toUpperCase(); }) + (pk.nights === 1 ? ' night falls' : ' nights fall') + ' during ' + names + ', our peak season, when demand is highest and rooms are limited. Moving a booking into peak dates adds 20% to the rate for those nights. Nothing changes until you confirm.'
+        : apRange(a, b) + ' has rooms. You pay the rate for these nights. Nothing changes until you confirm.');
+      ok.disabled = false; ok.dataset.a = inI.value; ok.dataset.b = outI.value; ok.dataset.fee = fee; ok.dataset.why = names;
     }
     document.getElementById('cdIn').addEventListener('change', previewDates);
     document.getElementById('cdOut').addEventListener('change', previewDates);
     document.getElementById('cdConfirm').addEventListener('click', function () {
       var b = this, before = JSON.parse(JSON.stringify(hold));
-      hold.inDate = new Date(b.dataset.a + 'T00:00:00').toISOString(); hold.outDate = new Date(b.dataset.b + 'T00:00:00').toISOString(); save();
+      var fee = +b.dataset.fee || 0;
+      hold.inDate = new Date(b.dataset.a + 'T00:00:00').toISOString(); hold.outDate = new Date(b.dataset.b + 'T00:00:00').toISOString();
+      hold.fee = fee; hold.feeWhy = fee ? b.dataset.why : ''; save();
       closeSheet('datesSheet'); showManage('');
-      toast('Dates changed to ' + compute().range + '. You pay the rate for the new nights.', function () { hold = before; save(); showManage('Undone.'); });
+      toast('Dates changed to ' + compute().range + '. ' + (fee ? 'Your new total includes a ' + money(fee) + ' peak-date charge for ' + b.dataset.why + '.' : 'You pay the rate for the new nights.'), function () { hold = before; save(); showManage('Undone.'); });
     });
 
     // --- change the room ---
@@ -710,7 +735,7 @@
       var afterPeople = Math.max(2, m.people - 1);
       var afterMix = autoMix(afterPeople), afterRooms = roomsOf(afterMix);
       var afterTotal = rateOf(afterMix) * nights;
-      var nowTotal = rateOf(m.mix) * nights;
+      var nowTotal = rateOf(m.mix) * nights + ((hold && hold.fee) || 0);
       return { people: m.people, nights: nights, rooms: rooms, range: apRange(m.inDate, m.outDate), nowTotal: nowTotal,
                afterPeople: afterPeople, afterRooms: afterRooms, afterTotal: afterTotal, afterEach: afterTotal / afterPeople,
                afterType: afterRooms.length ? ROOMS[afterRooms[0]].name : '', afterRate: afterRooms.length ? ROOMS[afterRooms[0]].rate : 0 };
@@ -731,7 +756,7 @@
       } else if (why === 'dates') {
         T.textContent = 'New dates';
         H.textContent = 'Change your dates instead';
-        B.innerHTML = '<p>Change your dates up to 72 hours before check-in. You pay the rate for the new nights, and your rooms move with you.</p>' +
+        B.innerHTML = '<p>Change your dates up to 72 hours before check-in. You pay the rate for the new nights, and your rooms move with you. Moving into peak dates, such as Diwali or Christmas and New Year, adds 20% to those nights.</p>' +
           (hold && hold.status === 'confirmed' ? '<p class="sheet__p2">If the new dates are fully booked, your payment becomes Zo credit, valid for 12 months at Zo Hotel Goa or Mumbai.</p>' : '<p class="sheet__p2">Your rooms are held free, so nothing has been charged.</p>');
         P.textContent = 'Change My Dates'; S.textContent = 'Keep the Booking';
       } else {
