@@ -81,7 +81,7 @@
     pauseBtn.addEventListener('click', function () {
       paused = !paused;
       pauseBtn.setAttribute('aria-pressed', String(paused));
-      document.getElementById('cinePauseT').textContent = paused ? 'Play the view' : 'Pause the view';
+      document.getElementById('cinePauseT').textContent = paused ? 'Play video' : 'Pause video';
       run(); videoRun();
     });
     document.addEventListener('visibilitychange', function () { run(); videoRun(); });
@@ -106,7 +106,7 @@
   var PROPS = {
     goa: {
       name: 'Zo Hotel Goa', place: 'North Goa', ref: 'ZO-GOA-', firstRoom: 201,
-      corridor: 'garden wing, one corridor, numbers fixed at payment', solo: false, who: 'families and groups', defaultPeople: 6,
+      corridor: 'side by side in the garden wing', solo: false, who: 'families and groups', defaultPeople: 6,
       lede: 'Whether you are two or twelve, there is a room or villa in Goa that fits.',
       fine: '',
       rooms: {
@@ -218,19 +218,19 @@
       if (hold && hold.prop && hold.prop !== p) {
         renderRooms(p);
         var sel0 = document.getElementById('wDest'); if (sel0) sel0.value = hold.prop;
-        toast('You hold rooms at ' + PROPS[hold.prop].name + '. Release them to hold at ' + PROPS[p].name + ' instead.');
+        toast('Your rooms are held at ' + PROPS[hold.prop].name + '. Release them first to book at ' + PROPS[p].name + '.');
         return;
       }
       PROP = p; ROOMS = PROPS[p].rooms;
       var sel = document.getElementById('wDest'); if (sel) sel.value = p;
       var P = PROPS[p], solo = P.solo;
       var T = function (id, t) { var e = document.getElementById(id); if (e) e.textContent = t; };
-      T('blockEyebrow', solo ? 'Your Mumbai stay' : 'Your Goa block');
+      T('blockEyebrow', solo ? 'Your Mumbai booking' : 'Your Goa booking');
       T('mixLab', solo ? 'Room' : 'Rooms');
-      T('corridorLab', solo ? 'High floor, quiet side' : 'Garden wing, one corridor, numbers fixed at payment');
+      T('corridorLab', solo ? 'Your room' : 'Your rooms, side by side');
       T('perHeadLab', 'Total for the stay');
-      T('blockFine', solo ? 'Held free for 48 hours; nothing is charged. Rate covers the room for every night booked. Taxes and fees are not included in this demo.'
-                          : 'Held free for 48 hours; nothing is charged. Rates are per room per night. Taxes and fees are not included in this demo.');
+      T('blockFine', solo ? 'Held free for 48 hours. Nothing is charged. Taxes and fees are not included in this demo.'
+                          : 'Held free for 48 hours. Nothing is charged. Rates are per room per night. Taxes and fees are not included in this demo.');
       var sh = document.getElementById('shareSplit'); if (sh) sh.hidden = true;
       if (!keepMix) { state.people = P.defaultPeople; var wp = document.getElementById('wPeople'); if (wp) wp.value = state.people; }
       var bp = document.getElementById('blockProp'); if (bp) bp.textContent = PROPS[p].name + ' \u00b7 ' + PROPS[p].place;
@@ -283,7 +283,7 @@
           else if (+d === +state.outDate) cls += ' is-end';
           else if (d > state.inDate && d < state.outDate) cls += ' is-mid';
         } else if (state.inDate && +d === +state.inDate) cls += ' is-in';
-        var label = apDate(d) + (nightFull(d) ? ', corridor full' : '');
+        var label = apDate(d) + (nightFull(d) ? ', fully booked' : '');
         html += '<button type="button" class="' + cls + '" data-day="' + dayKey(d) + '" aria-label="' + label + '"' + dis + '>' + d.getDate() + '</button>';
         d = addDays(d, 1);
       }
@@ -299,7 +299,7 @@
 
     function pickDay (d) {
       if (!state.inDate || state.outDate) {
-        if (nightFull(d)) { say(el.datesOut, apDate(d) + ' is full on this corridor. Start on another night.'); return; }
+        if (nightFull(d)) { say(el.datesOut, apDate(d) + ' is fully booked. Choose another night.'); return; }
         state.inDate = d; state.outDate = null;
         if (el.datesHint) el.datesHint.textContent = 'Now choose check-out.';
         say(el.datesOut, 'Check-in ' + apDate(d) + '. Choose check-out.');
@@ -310,12 +310,12 @@
         var fullNight = null;
         for (var x = new Date(state.inDate); x < d; x = addDays(x, 1)) if (nightFull(x)) { fullNight = x; break; }
         if (fullNight) {
-          say(el.datesOut, apDate(fullNight) + ' is full, so those dates don’t work as one block. Goa weekends in December and January do sell out. Try dates either side.');
+          say(el.datesOut, apDate(fullNight) + ' is fully booked. Try nearby dates.');
           return;
         }
         state.outDate = d;
-        if (el.datesHint) el.datesHint.textContent = 'Dates set. Change them any time.';
-        say(el.datesOut, apRange(state.inDate, d) + ' · ' + word(n) + (n === 1 ? ' night' : ' nights') + '. Rooms are free on every night.');
+        if (el.datesHint) el.datesHint.textContent = 'Dates set.';
+        say(el.datesOut, apRange(state.inDate, d) + ' · ' + word(n) + (n === 1 ? ' night' : ' nights') + '. Rooms are available on every night.');
       }
       drawCal(); render();
     }
@@ -388,8 +388,8 @@
       if (steps.group) steps.group.classList.toggle('is-off', !datesOk);
       var title = document.getElementById('blockTitle');
       if (title) title.textContent = datesOk
-        ? c.range + ' \u00b7 ' + word(c.nights) + (c.nights === 1 ? ' night' : ' nights') + ' \u00b7 ' + word(state.people) + ' of you'
-        : (PROPS[PROP].solo ? 'Your room appears here once you add nights' : 'Your rooms appear here once you add dates');
+        ? c.range + ' \u00b7 ' + word(c.nights) + (c.nights === 1 ? ' night' : ' nights') + ' \u00b7 ' + word(state.people) + (state.people === 1 ? ' guest' : ' guests')
+        : (PROPS[PROP].solo ? 'Your room appears here once you add dates' : 'Your rooms appear here once you add dates');
       var bl = document.getElementById('billLine');
       if (bl) bl.textContent = datesOk ? word(c.rooms.length).replace(/^./, function (ch) { return ch.toUpperCase(); }) + (c.rooms.length === 1 ? ' room' : ' rooms') + ' \u00d7 ' + word(c.nights) + (c.nights === 1 ? ' night' : ' nights') + '' : 'Your total appears once dates are set.';
       var hb = document.getElementById('holdBtn'); if (hb) hb.disabled = !datesOk;
@@ -398,9 +398,9 @@
       var spare = c.beds - state.people;
       if (state.people === 1 && c.rooms.length === 1) say(el.groupOut, '');
       else if (!c.rooms.length) say(el.groupOut, 'Add at least one room.');
-      else if (!fits) say(el.groupOut, 'Those rooms sleep ' + word(c.beds) + '; you are ' + word(state.people) + '. Add a room or choose bigger ones.');
-      else if (spare > 0) say(el.groupOut, word(spare).replace(/^./, function (ch) { return ch.toUpperCase(); }) + (spare === 1 ? ' bed' : ' beds') + ' nobody sleeps in — you are paying for ' + (spare === 1 ? 'it' : 'them') + '. A smaller mix may fit exactly.');
-      else say(el.groupOut, state.people === 1 ? '' : 'An exact fit: ' + word(c.rooms.length) + (c.rooms.length === 1 ? ' room' : ' rooms') + ', ' + word(c.beds) + ' beds, ' + word(state.people) + ' of you.');
+      else if (!fits) say(el.groupOut, 'These rooms sleep ' + word(c.beds) + ' and you are ' + word(state.people) + '. Add a room or choose a larger one.');
+      else if (spare > 0) say(el.groupOut, word(spare).replace(/^./, function (ch) { return ch.toUpperCase(); }) + (spare === 1 ? ' bed' : ' beds') + ' will be empty. A smaller room may suit you better.');
+      else say(el.groupOut, state.people === 1 ? '' : word(c.rooms.length).replace(/^./, function (ch) { return ch.toUpperCase(); }) + (c.rooms.length === 1 ? ' room sleeps ' : ' rooms sleep ') + word(state.people) + ' guests.');
 
       var ok = datesOk && fits && c.rooms.length <= CORRIDOR_ROOMS;
       if (steps.corridor) steps.corridor.classList.toggle('is-off', !(datesOk && fits));
@@ -409,10 +409,10 @@
 
       if (c.rooms.length > CORRIDOR_ROOMS) {
         el.corridor.innerHTML = '';
-        say(el.corridorOut, 'This corridor has ' + CORRIDOR_ROOMS + ' rooms. We can’t block ' + c.rooms.length + ' on one corridor — the desk would offer two adjacent corridors, and tell you so before you pay.');
+        say(el.corridorOut, 'We can book up to ' + CORRIDOR_ROOMS + ' rooms side by side. For a larger group, call the hotel and we will arrange it.');
       } else {
         el.corridor.innerHTML = corridorHTML(c.rooms);
-        say(el.corridorOut, c.rooms.length ? (c.rooms.length > 1 ? 'Rooms ' + c.rooms[0].num + '–' + c.rooms[c.rooms.length - 1].num : 'Room ' + c.rooms[0].num) + ', ' + PROPS[PROP].corridor + (PROPS[PROP].solo ? '. Ready at any hour; held for you when you hold.' : '. Blocked for you when you hold.') : '');
+        say(el.corridorOut, c.rooms.length ? (c.rooms.length > 1 ? 'Rooms ' + c.rooms[0].num + '–' + c.rooms[c.rooms.length - 1].num : 'Room ' + c.rooms[0].num) + ', ' + PROPS[PROP].corridor + '.' : '');
       }
       renderShares(true);
       el.holdErr.textContent = '';
@@ -455,7 +455,7 @@
       var c = compute();
       if (!c.nights) { say(el.holdErr, 'Choose check-in and check-out in the form above first.'); return; }
       if (c.beds < state.people) { say(el.holdErr, 'Add a room so everyone has a bed.'); return; }
-      if (c.rooms.length > CORRIDOR_ROOMS) { say(el.holdErr, 'Too many rooms for one corridor. Reduce the mix or split the group over two holds.'); return; }
+      if (c.rooms.length > CORRIDOR_ROOMS) { say(el.holdErr, 'That is more rooms than we can book side by side. Choose fewer rooms, or call the hotel.'); return; }
       var now = new Date();
       hold = {
         ref: PROPS[PROP].ref + String(1000 + Math.floor(Math.random() * 9000)), prop: PROP,
@@ -480,12 +480,12 @@
       form.hidden = true; el.manage.hidden = false;
       el.mgRef.textContent = hold.ref;
       el.mgLine.textContent = (hold.status === 'confirmed' ? 'Confirmed' : 'Held free until ' + whenExpires()) +
-        ' · ' + c.range + ' · ' + word(c.nights) + (c.nights === 1 ? ' night' : ' nights') + ' · ' + word(state.people) + ' of you.';
+        ' · ' + c.range + ' · ' + word(c.nights) + (c.nights === 1 ? ' night' : ' nights') + ' · ' + word(state.people) + (state.people === 1 ? ' guest.' : ' guests.');
       el.mgCorridor.innerHTML = corridorHTML(c.rooms);
-      el.mgRooms.textContent = c.rooms.map(function (r) { return r.num + ' ' + ROOMS[r.type].name; }).join(' · ') + '. One corridor, garden wing.';
+      el.mgRooms.textContent = c.rooms.map(function (r) { return r.num + ' ' + ROOMS[r.type].name; }).join(' · ') + (PROPS[PROP].solo ? '.' : ', side by side in the garden wing.');
       el.mgShares.innerHTML = '<li><span>Total \u00b7 ' + word(c.rooms.length) + (c.rooms.length === 1 ? ' room' : ' rooms') + ', ' + word(c.nights) + (c.nights === 1 ? ' night' : ' nights') + '</span><b>' + money(c.total) + '</b></li>';
       say(el.mgOut, msg || '');
-      var rl = document.getElementById('mgRoomsLab'); if (rl) rl.textContent = PROPS[PROP].solo ? 'Your room' : 'Rooms blocked for you';
+      var rl = document.getElementById('mgRoomsLab'); if (rl) rl.textContent = PROPS[PROP].solo ? 'Your room' : 'Your rooms';
       var addBtn = document.querySelector('[data-mg="add"]'); if (addBtn) addBtn.textContent = PROPS[PROP].solo ? 'Add a Colleague' : 'Add a Friend';
       var relBtn = document.querySelector('[data-mg="release"]'); if (relBtn) relBtn.hidden = true;
       renderRequests();
@@ -495,15 +495,15 @@
         booked.hidden = !isBooked;
         var ul = booked.querySelector('.tick');
         if (ul) ul.innerHTML = (PROPS[PROP].solo
-          ? ['Room ' + c.rooms[0].num + ', high floor, quiet side', (hold.gst ? 'The GST invoice goes to your company before checkout' : 'Add the company\u2019s GST details for the invoice'), 'Taxes and fees are not included in this demo']
-          : ['Rooms ' + c.rooms.map(function (r) { return r.num; }).join(', ') + ', one corridor of the garden wing', 'Each guest has their own key and own check-in', 'Taxes and fees are not included in this demo']
+          ? ['Room ' + c.rooms[0].num + ', high floor, quiet side', (hold.gst ? 'The GST invoice goes to your company before checkout' : 'Express checkout on the morning you leave'), 'Taxes and fees are not included in this demo']
+          : ['Rooms ' + c.rooms.map(function (r) { return r.num; }).join(', ') + ', side by side in the garden wing', 'A key for every guest at check-in', 'Taxes and fees are not included in this demo']
         ).map(function (t) { return '<li>' + t + '</li>'; }).join('');
       }
-      if (isBooked) document.getElementById('bookedLine').textContent = (PROPS[PROP].solo ? 'Done: your room is booked, high on the quiet side.' : 'Done: these are your room numbers, fixed for your dates, side by side in the garden wing.') + ' Booking ' + hold.ref + ', ' + c.range + ' \u2014 a demo, so nothing was charged.';
+      if (isBooked) document.getElementById('bookedLine').textContent = (PROPS[PROP].solo ? 'Your stay is confirmed.' : 'Your stay is confirmed.') + ' Booking ' + hold.ref + ', ' + c.range + '. Nothing was charged in this demo.';
       if (payBtn) payBtn.hidden = isBooked;
       if (allBtn) allBtn.textContent = isBooked ? 'Cancel This Booking' : 'Release All Rooms';
       if (st) st.textContent = isBooked ? 'Confirmed' : 'Held';
-      var eb = document.getElementById('mgEyebrow'); if (eb) eb.textContent = isBooked ? 'Your booking' : 'Your hold';
+      var eb = document.getElementById('mgEyebrow'); if (eb) eb.textContent = 'Your booking';
       el.manage.scrollIntoView({ block: 'start', behavior: reduce.matches ? 'auto' : 'smooth' });
     }
     function showForm (msg) {
@@ -524,23 +524,20 @@
         } else if (act === 'request') {
           openRequest();
         } else if (act === 'add') {
-          if (state.people >= 12) { say(el.mgOut, 'Holds run to 12 people. For more, the desk opens a second corridor.'); return; }
+          if (state.people >= 12) { say(el.mgOut, 'Group bookings take up to 12 guests. For more, call the hotel.'); return; }
           var nextMix = autoMix(state.people + 1);
-          if (roomsOf(nextMix).length > CORRIDOR_ROOMS) { say(el.mgOut, 'No room remains on this corridor for one more. The desk would offer the adjacent corridor — we tell you now, not on the day.'); return; }
+          if (roomsOf(nextMix).length > CORRIDOR_ROOMS) { say(el.mgOut, 'There is no room left side by side for one more guest. Call the hotel and we will arrange it.'); return; }
           var beforeAdd = JSON.parse(JSON.stringify(hold));
           hold.people = state.people + 1; hold.mix = nextMix; save();
           showManage('');
-          toast('Friend added. The block is rooms 201\u2013' + (200 + roomsOf(nextMix).length) + '; each person now pays ' + money(compute().each) + '.', function () { hold = beforeAdd; save(); showManage('Undone.'); });
+          toast('Guest added. Your new total is ' + money(compute().total) + '.', function () { hold = beforeAdd; save(); showManage('Undone.'); });
         } else if (act === 'release') {
-          if (state.people <= 2) { say(el.mgOut, 'Two is the smallest hold. Release all rooms instead if the trip is off.'); return; }
+          if (state.people <= 2) { say(el.mgOut, 'A group booking needs at least two guests.'); return; }
           var before = c.rooms.length, beforeRel = JSON.parse(JSON.stringify(hold));
           hold.people = state.people - 1; hold.mix = autoMix(hold.people); hold.names = state.names.slice(0, hold.people); save();
           var after = roomsOf(hold.mix).length;
-          var what = after < before
-            ? 'Room ' + (200 + before) + ' released.'
-            : 'One seat released; the block is re-cut to ' + word(after) + (after === 1 ? ' room' : ' rooms') + '.';
           showManage('');
-          toast(what + ' Rates hold; each person now pays ' + money(compute().each) + '.', function () { hold = beforeRel; save(); showManage('Undone.'); });
+          toast('Booking updated for ' + word(hold.people) + ' guests. Your new total is ' + money(compute().total) + '.', function () { hold = beforeRel; save(); showManage('Undone.'); });
         } else if (act === 'releaseAll') {
           openExit('drop');
         }
@@ -584,7 +581,7 @@
       var d = newT - oldT;
       return [['Current total', money(oldT)]].concat(fee ? [['Change fee', money(fee)]] : []).concat([['New total', money(newT)],
               ['Difference', (d > 0 ? '+' : d < 0 ? '\u2212' : '') + money(Math.abs(d)), d > 0 ? 'up' : d < 0 ? 'down' : ''],
-              people > 1 ? ['Each person, new', money(newT / people)] : ['Your rate, new', money(newT)]]);
+              ]);
     }
 
     // --- review and pay ---
@@ -593,7 +590,7 @@
       document.getElementById('rvList').innerHTML = rows([
         ['Hotel', P.name], ['Dates', c.range + ' \u00b7 ' + word(c.nights) + (c.nights === 1 ? ' night' : ' nights')],
         ['Rooms', c.rooms.map(function (r) { return r.num + ' ' + ROOMS[r.type].name; }).join(', ')],
-        ['Guests', word(state.people)], ['Total', money(c.total)]]);
+        ['Guests', word(state.people).replace(/^./, function (ch) { return ch.toUpperCase(); })], ['Total', money(c.total)]]);
       document.getElementById('rvPolicy').textContent = 'Flexible rate: change the dates up to 72 hours before check-in and pay the new dates\u2019 rate. Taxes and fees are not included in this demo.';
       document.getElementById('gstWrap').hidden = !P.solo;
       openSheet('reviewSheet');
@@ -621,11 +618,11 @@
       if (b <= a) { say(note, 'Choose a check-out date after your check-in date.'); return; }
       if (nightsBetween(a, b) > 14) { say(note, 'Stays run up to 14 nights.'); return; }
       for (var x = new Date(a); x < b; x = addDays(x, 1)) if (nightFull(x)) {
-        say(note, apDate(x) + ' is full at ' + PROPS[PROP].name + '. If you still need those dates, the paid value becomes Zo credit for 12 months.'); return;
+        say(note, apDate(x) + ' is full at ' + PROPS[PROP].name + '. If you still need those dates, your payment becomes Zo credit for 12 months.'); return;
       }
       var oldT = totalFor(state.mix, state.inDate, state.outDate), newT = totalFor(state.mix, a, b);
       document.getElementById('cdDiff').innerHTML = rows(diffRows(oldT, newT, state.people, CHANGE_FEE));
-      say(note, apRange(a, b) + ' has rooms. You pay the rate for these nights, nothing more; nothing changes until you confirm.');
+      say(note, apRange(a, b) + ' has rooms. You pay the rate for these nights. Nothing changes until you confirm.');
       ok.disabled = false; ok.dataset.a = inI.value; ok.dataset.b = outI.value;
     }
     document.getElementById('cdIn').addEventListener('change', previewDates);
@@ -634,7 +631,7 @@
       var b = this, before = JSON.parse(JSON.stringify(hold));
       hold.inDate = new Date(b.dataset.a + 'T00:00:00').toISOString(); hold.outDate = new Date(b.dataset.b + 'T00:00:00').toISOString(); save();
       closeSheet('datesSheet'); showManage('');
-      toast('Dates changed to ' + compute().range + '. You pay the rate for the new nights, nothing more.', function () { hold = before; save(); showManage('Undone.'); });
+      toast('Dates changed to ' + compute().range + '. You pay the rate for the new nights.', function () { hold = before; save(); showManage('Undone.'); });
     });
 
     // --- change the room ---
@@ -660,7 +657,7 @@
       var k = document.querySelector('input[name="cr"]:checked').value, before = JSON.parse(JSON.stringify(hold));
       var mix = { garden: 0, resort: 0, suite: 0 }; mix[k] = Math.ceil(state.people / ROOMS[k].cap);
       hold.mix = mix; save(); closeSheet('roomSheet'); showManage('');
-      toast('Room changed to ' + ROOMS[k].name + '. ' + (state.people > 1 ? 'Each person now pays ' + money(compute().each) : 'Your total is now ' + money(compute().total)) + '.', function () { hold = before; save(); showManage('Undone.'); });
+      toast('Room changed to ' + ROOMS[k].name + '. Your total is now ' + money(compute().total) + '.', function () { hold = before; save(); showManage('Undone.'); });
     });
 
     // --- requests ---
@@ -724,31 +721,33 @@
       var H = document.getElementById('exitH'), B = document.getElementById('exitB'), T = document.getElementById('exitTag');
       var P = document.getElementById('exitPrimary'), S = document.getElementById('exitSecondary');
       var nR = x.afterRooms.length;
+      var demo = hold && hold.status === 'confirmed' ? ' Nothing was charged in this demo.' : ' Your hold is free, so nothing has been charged.';
       if (why === 'drop') {
-        T.textContent = 'One friend out, ' + word(x.afterPeople) + ' still in';
-        H.textContent = 'Keep the trip for the ' + word(x.afterPeople) + ' of you';
-        B.innerHTML = '<p>Keep ' + word(nR) + (nR === 1 ? ' room' : ' rooms') + ' on the same ' + (PROPS[PROP].solo ? 'quiet floor' : 'garden-wing corridor') + ' for ' + x.range + ', and the one empty room goes back. The rates on your ' + word(nR) + (nR === 1 ? ' room hold' : ' rooms hold') + ', and the new total is <b>' + money(x.afterTotal) + '</b>.</p>' +
-          '<p class="sheet__p2">Nothing here changes until you choose below, and the new total shows on the booking page. Taxes and fees are not included in this demo.</p>';
-          '<p class="sheet__p2">If the dates are the problem rather than the headcount, you can keep the booking and move it up to 72 hours before check-in, paying the new dates\u2019 rate, subject to availability. If the whole plan has changed rather than one seat in it, the link below does that instead, and nobody will argue with you.</p>';
-        P.textContent = 'Keep ' + word(nR).replace(/^./, function (ch) { return ch.toUpperCase(); }) + (nR === 1 ? ' Room' : ' Rooms'); S.textContent = 'Keep All Rooms';
+        T.textContent = 'Fewer guests';
+        H.textContent = 'Update your booking instead';
+        B.innerHTML = '<p>Update your booking for ' + word(x.afterPeople) + ' guests on ' + x.range + '. We fit the rooms to your group, and your new total is <b>' + money(x.afterTotal) + '</b>.</p>' +
+          '<p class="sheet__p2">Nothing changes until you confirm. Taxes and fees are not included in this demo.</p>';
+        P.textContent = 'Update My Booking'; S.textContent = 'Keep the Booking';
       } else if (why === 'dates') {
-        T.textContent = 'Same rooms, different nights';
-        H.textContent = 'Change the dates and keep the rooms';
-        B.innerHTML = '<p>Change the dates up to 72 hours before check-in at the new dates\u2019 rate, and your ' + word(x.rooms.length) + (x.rooms.length === 1 ? ' room' : ' rooms') + ' and rates come with you. Be realistic: Goa weekends in December and January do sell out, and the calendar shows which nights are full before you choose.</p>' +
-          '<p class="sheet__p2">If the new dates are full, the amount you paid becomes Zo credit, valid 12 months at either Zo Hotel, Goa or Mumbai.</p>';
-        P.textContent = 'Change the Dates'; S.textContent = 'Keep the Booking';
+        T.textContent = 'New dates';
+        H.textContent = 'Change your dates instead';
+        B.innerHTML = '<p>Change your dates up to 72 hours before check-in. You pay the rate for the new nights, and your rooms move with you.</p>' +
+          '<p class="sheet__p2">If the new dates are full, the amount you paid becomes Zo credit, valid for 12 months at Zo Hotel Goa or Mumbai.</p>';
+        P.textContent = 'Change My Dates'; S.textContent = 'Keep the Booking';
       } else {
-        T.textContent = 'When the trip itself is off';
-        H.textContent = 'Keep the value as 12-month credit';
-        B.innerHTML = '<p>If the whole plan has changed, keep what you paid as Zo credit: ' + money(x.nowTotal) + ' across ' + word(x.people) + ' of you, valid 12 months at either Zo Hotel, Goa or Mumbai. ' +
-          (hold && hold.status === 'confirmed' ? 'Nothing was charged in this demo, so the credit is illustrative.' : 'Your hold is free and nothing has been charged, so releasing it costs nothing.') + '</p>' +
-          '<p class="sheet__p2">The link below releases ' + (x.rooms.length === 1 ? 'the room' : x.rooms.length === 2 ? 'both rooms' : 'all ' + word(x.rooms.length) + ' rooms') + ' now. No one will ask you to explain.</p>';
-        P.textContent = 'Keep the Credit'; S.textContent = 'Keep the Booking';
+        T.textContent = 'Change of plan';
+        H.textContent = 'Keep your payment as credit';
+        B.innerHTML = '<p>Keep ' + money(x.nowTotal) + ' as Zo credit, valid for 12 months at Zo Hotel Goa or Mumbai.' + demo + '</p>';
+        P.textContent = 'Keep My Credit'; S.textContent = 'Keep the Booking';
       }
     }
 
     function openExit (why) {
       opener = document.activeElement;
+      var solo = PROPS[hold && hold.prop ? hold.prop : PROP].solo;
+      var dropOpt = sheet.querySelector('input[name="why"][value="drop"]');
+      if (dropOpt) dropOpt.closest('label').hidden = solo;
+      if (solo && why === 'drop') why = 'dates';
       var r = sheet.querySelector('input[name="why"][value="' + why + '"]'); if (r) r.checked = true;
       fillExit(why);
       sheet.hidden = false; document.body.style.overflow = 'hidden';
@@ -772,7 +771,7 @@
       else if (why === 'dates') document.querySelector('[data-mg="dates"]').click();
       else {
         var keptAs = JSON.parse(JSON.stringify(hold)); clear(); showForm('');
-        toast('Released \u00b7 ' + keptAs.ref + '. Nothing was charged; on a paid booking the value would sit as 12-month Zo credit.', function () { hold = keptAs; save(); showManage('Restored.'); });
+        toast((keptAs.status === 'confirmed' ? 'Booking ' + keptAs.ref + ' canceled.' : 'Hold ' + keptAs.ref + ' released.') + ' Nothing was charged.', function () { hold = keptAs; save(); showManage('Restored.'); });
       }
     });
     document.getElementById('exitSecondary').addEventListener('click', function () {
@@ -783,10 +782,10 @@
     });
     document.getElementById('exitGo').addEventListener('click', function () {
       closeExit();
-      if (!hold) { say(el.holdErr, 'There is no hold to release yet.'); return; }
+      if (!hold) { say(el.holdErr, 'There is no booking to cancel yet.'); return; }
       var gone = JSON.parse(JSON.stringify(hold)), wasBooked = gone.status === 'confirmed';
       clear(); showForm('');
-      toast((wasBooked ? 'Booking ' : 'Hold ') + gone.ref + ' released. Nothing was charged.', function () { hold = gone; save(); showManage('Restored.'); });
+      toast((wasBooked ? 'Booking ' + gone.ref + ' canceled.' : 'Hold ' + gone.ref + ' released.') + ' Nothing was charged.', function () { hold = gone; save(); showManage('Restored.'); });
     });
     document.addEventListener('keydown', function (e) {
       if (sheet.hidden) return;
@@ -810,7 +809,7 @@
         setProp(document.getElementById('wDest').value, true);
         var a = wIn.value ? new Date(wIn.value + 'T00:00:00') : null;
         var b = wOut.value ? new Date(wOut.value + 'T00:00:00') : null;
-        if (!a || !b) { say(note, 'Choose check-in and check-out to see the corridor.'); return; }
+        if (!a || !b) { say(note, 'Choose check-in and check-out to see your rooms.'); return; }
         if (b <= a) { say(note, 'Choose a check-out date after your check-in date.'); return; }
         var n = Number(document.getElementById('wPeople').value) || 6;
         state.people = Math.min(12, Math.max(1, n)); state.mix = autoMix(state.people); state.mixTouched = false;
@@ -819,19 +818,23 @@
         state.inDate = null; state.outDate = null;
         view = new Date(a.getFullYear(), a.getMonth(), 1); drawCal();
         pickDay(a); if (state.inDate) pickDay(b);
-        say(note, state.outDate ? 'Rooms are free on those nights. Your block is below.' : el.datesOut.textContent);
+        say(note, state.outDate ? 'Rooms are available on those nights. Your booking is below.' : el.datesOut.textContent);
         document.getElementById('block').scrollIntoView({ behavior: reduce.matches ? 'auto' : 'smooth' });
       });
     }
     document.addEventListener('click', function (e) {
       var b = e.target.closest('[data-room]'); if (!b) return;
       {
+        if (hold) {
+          toast('Your rooms are already held. Release them first to choose a different room.');
+          document.getElementById('block').scrollIntoView({ behavior: reduce.matches ? 'auto' : 'smooth' });
+          return;
+        }
         var k = b.dataset.room, cap = ROOMS[k].cap;
         var mix = { garden: 0, resort: 0, suite: 0 }; mix[k] = Math.ceil(state.people / cap);
         state.mix = mix; state.mixTouched = true;
-        if (hold) { clear(); el.manage.hidden = true; form.hidden = false; }
         drawCal(); render();
-        say(el.groupOut, word(mix[k]) + ' ' + ROOMS[k].name + (mix[k] === 1 ? '' : 's') + ' for ' + word(state.people) + ' of you. ' + el.groupOut.textContent);
+        say(el.groupOut, word(mix[k]).replace(/^./, function (ch) { return ch.toUpperCase(); }) + ' ' + ROOMS[k].name + (mix[k] === 1 ? '' : 's') + ' for ' + word(state.people) + (state.people === 1 ? ' guest.' : ' guests.'));
         document.getElementById('block').scrollIntoView({ behavior: reduce.matches ? 'auto' : 'smooth' });
       }
     });
@@ -855,10 +858,10 @@
     if (hold && hold.status !== 'confirmed' && new Date(hold.expiresAt) < new Date()) {
       var lapsed = hold.ref; clear();
       drawCal(); render();
-      say(el.holdErr, 'Hold ' + lapsed + ' lapsed after 48 hours. Nothing was charged; pick dates to hold again.');
+      say(el.holdErr, 'Hold ' + lapsed + ' expired after 48 hours. Nothing was charged. Choose dates to hold again.');
     } else {
       drawCal(); render();
-      if (hold) showManage('Welcome back. Your hold is still here.');
+      if (hold) showManage('Welcome back. Your booking is below.');
     }
   }());
 
