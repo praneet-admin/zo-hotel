@@ -621,3 +621,9 @@ em{font-style:italic;color:var(--gold-soft)}
 .booked__acts .cta{padding:.6rem 1.1rem;font-size:.9rem}
 .brand__t{white-space:nowrap}
 @media (max-width:420px){.brand__t{font-size:1.15rem;letter-spacing:.08em}.nav__r{gap:.5rem}.nav__r .cta{padding:.55rem .9rem;font-size:.85rem}}
+@media (min-width:761px) and (max-width:999px){
+  .widget__grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .wf:nth-child(3){border-right:0}
+  .widget__go{grid-column:1/-1;padding:.4rem .6rem .6rem}
+  .widget__go .cta{width:100%}
+}

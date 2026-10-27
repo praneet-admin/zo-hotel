@@ -481,7 +481,8 @@
         'Each person ' + (c.nights ? money(c.each) : '—'),
         'Taxes and fees are not included in this demo.'].join('\n');
     }
-    document.getElementById('shareSplit').addEventListener('click', function () {
+    var shareBtn = document.getElementById('shareSplit');
+    if (shareBtn) shareBtn.addEventListener('click', function () {
       var t = splitText(compute());
       var after = function (ok) { say(el.shareStatus, ok ? 'Copied — paste it into the group chat.' : 'Select the figures and copy them.'); };
       copyText(t, after);
@@ -909,7 +910,7 @@
         state.people = Math.min(12, Math.max(1, n)); state.mix = autoMix(state.people); state.mixTouched = false;
         var nm = document.getElementById('wName').value.trim(); if (nm) state.names[0] = nm;
         if (hold) {
-          say(note, 'You already have booking ' + hold.ref + '. Cancel it first to search new dates.');
+          say(note, 'You already have booking ' + hold.ref + '. It is shown below.');
           document.getElementById('block').scrollIntoView({ behavior: reduce.matches ? 'auto' : 'smooth' });
           return;
         }
