@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ZO Hotel | Find your kind of escape &mdash; Mumbai &amp; Goa</title>
+  <meta name="description" content="Book a ZO Hotel stay near Marine Lines in South Mumbai from &#8377;6,999 per night, or near Baga Beach in North Goa from &#8377;9,499. Change your dates, room or destination from the same booking.">
+  <meta name="theme-color" content="#241a13">
+  <meta name="color-scheme" content="light dark">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&amp;family=Karla:wght@400;500;700&amp;display=swap">
+  <link rel="stylesheet" href="zo-site.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<!-- Header floats over the hero: wordmark left, tracked links, then the
+     gold booking button. No bar, no background — the photograph carries it. -->
+<header class="hero" id="top">
+  <div class="hero__slides" id="heroSlides">
+    <figure class="hero__slide is-on">
+      <img class="hero__img" src="zo-assets/hero.jpg" alt="A ZO Hotel terrace at dusk, the lit Mumbai skyline across the water on one side and a palm-lined Goa shoreline at sunset on the other">
+    </figure>
+    <figure class="hero__slide">
+      <img class="hero__img" src="zo-assets/mumbai-lounge.jpg" alt="The ZO Hotel Mumbai lounge, with warm lamps and low seating beside tall windows">
+    </figure>
+    <figure class="hero__slide">
+      <img class="hero__img" src="zo-assets/goa-pool.jpg" alt="ZO Hotel Goa at golden hour, white arches and palms above the pool terrace">
+    </figure>
+  </div>
+  <div class="hero__veil"></div>
+
+  <nav class="nav">
+    <div class="nav__in">
+      <a class="brand" href="#top">
+        <span class="brand__mark" aria-hidden="true"></span>
+        <b>ZO Hotel</b>
+        <span>Mumbai &middot; Goa</span>
+      </a>
+      <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks">Menu</button>
+      <div class="nav__links" id="navLinks">
+        <a href="#destinations">Stay in Mumbai</a>
+        <a href="#destinations">Escape to Goa</a>
+        <a href="#rooms">Rooms</a>
+        <a href="#experience">Your ZO Experience</a>
+        <a href="#faq">FAQs</a>
+      </div>
+      <a class="nav__util" href="#faq">Help</a>
+      <a class="btn btn--gold" href="#book">Book a Stay</a>
+    </div>
+  </nav>
+
+  <!-- The one control on the hero, as on the reference. -->
+  <a class="hero__orb" href="#book" aria-label="Check dates and availability">
+    <span aria-hidden="true"></span>
+  </a>
+
+  <div class="hero__controls">
+    <div class="hero__dots" id="heroDots" aria-label="Choose a view">
+      <button type="button" class="is-on" aria-current="true">
+        <span class="vh">Show ZO Hotel at dusk</span></button>
+      <button type="button" aria-current="false">
+        <span class="vh">Show the ZO Hotel Mumbai lounge</span></button>
+      <button type="button" aria-current="false">
+        <span class="vh">Show the ZO Hotel Goa pool terrace</span></button>
+    </div>
+    <button type="button" class="hero__pause" id="heroPause" aria-pressed="false">
+      <span class="hero__pause-i" aria-hidden="true"></span>
+      <span class="hero__pause-t">Pause</span>
+    </button>
+  </div>
+  </header>
+
+<main id="main">
+<!-- Our headline, moved off the photograph and given its own quiet band. -->
+<section class="intro">
+  <div class="wrap">
+    <p class="eyebrow">Two destinations. Endless reasons to go.</p>
+    <h1>Find your kind of <em>escape</em> at ZO.</h1>
+    <p class="intro__dek">Step into the energy of Mumbai or surrender to the rhythm of Goa. Wherever your journey takes you, ZO Hotel brings together thoughtful comfort, inviting spaces and a stay shaped around you.</p>
+    <div class="intro__marks">
+      <span>Direct booking</span>
+      <span>Secure payments</span>
+      <span>Support when you need it</span>
+    </div>
+  </div>
+</section>
+
+<div class="wrap book" id="book">
+  <form class="book__card" id="bookForm" novalidate>
+    <div class="book__row">
+      <div class="fld"><label for="fProp">Property</label>
+        <select id="fProp"><option value="mumbai">ZO Hotel Mumbai</option><option value="goa">ZO Hotel Goa</option></select></div>
+      <div class="fld"><label for="fIn">Check-in</label><input type="date" id="fIn"></div>
+      <div class="fld"><label for="fOut">Check-out</label><input type="date" id="fOut"></div>
+      <div class="fld"><label for="fGuests">Guests</label>
+        <select id="fGuests"><option value="1">One guest</option><option value="2" selected>Two guests</option><option value="3">Three guests</option><option value="4">Four guests</option></select></div>
+      <div class="book__go"><button class="btn" type="submit">Check Availability</button></div>
+    </div>
+    <p class="book__note" id="stayNote" role="status"></p>
+  </form>
+</div>
+
+<!-- WHO ZO IS FOR -->
+
+
+<!-- WHAT ZO SOLVES -->
+
+
+<!-- DESTINATIONS -->
+<section class="wrap section" id="destinations">
+  <div class="head">
+    <p class="eyebrow">Two ways to experience ZO</p>
+    <h2>Follow the energy. Or follow the tide.</h2>
+    <p>Each ZO destination has its own rhythm. All you have to do is choose the one that feels right today.</p>
+  </div>
+  <div class="dest" role="list">
+    <article class="dest__c">
+      <img src="zo-assets/mumbai-lounge.jpg" alt="The ZO Hotel Mumbai lounge, with warm lamps and low seating beside tall windows" loading="lazy">
+      <div class="dest__b">
+        <p class="dest__where">ZO Hotel Mumbai &middot; near Marine Lines</p>
+        <h3>Be where Mumbai happens.</h3>
+        <p>Start the day close to opportunity and end it in considered comfort. Located near Marine Lines in South Mumbai, ZO Hotel Mumbai makes it easier to move between meetings, markets, shopping and the city experiences on your list.</p>
+        <ul class="dest__l">
+          <li>Make South Mumbai your starting point</li>
+          <li>Spend less time getting there</li>
+          <li>Return to comfort after a full city day</li>
+        </ul>
+        <div class="dest__f">
+          <span class="dest__p">Rooms from &#8377;6,999 per night</span>
+          <button class="btn btn--ghost" type="button" data-dest="mumbai">Make Mumbai Mine</button>
+        </div>
+      </div>
+    </article>
+    <article class="dest__c">
+      <img src="zo-assets/goa-pool.jpg" alt="ZO Hotel Goa at golden hour, white arches and palms above the pool terrace" loading="lazy">
+      <div class="dest__b">
+        <p class="dest__where">ZO Hotel Goa &middot; near Baga Beach</p>
+        <h3>Meet the slower side of life.</h3>
+        <p>Let the sea set your schedule. Near Baga Beach in North Goa, ZO Hotel Goa surrounds your stay with coastal air, resort pools, coconut palms and Arabian Sea views.</p>
+        <ul class="dest__l">
+          <li>Begin the morning by the coast</li>
+          <li>Make time for the people you came with</li>
+          <li>Let every day unfold at its own pace</li>
+        </ul>
+        <div class="dest__f">
+          <span class="dest__p">Stays from &#8377;9,499 per night</span>
+          <button class="btn btn--ghost" type="button" data-dest="goa">Take Me to Goa</button>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ROOMS -->
+<div class="band">
+  <section class="wrap section" id="rooms">
+    <div class="head">
+      <p class="eyebrow">Rooms</p>
+      <h2>Not just a room. Your place in the journey.</h2>
+      <p>Whether you need a simple city base, a business-ready retreat, more space for the family or a view that feels like a holiday, there's a ZO room for the way you travel.</p>
+    </div>
+    <div class="rooms" id="roomGrid" role="list">
+      <article class="room" data-room="city">
+        <img src="zo-assets/room-city.jpg" alt="City Comfort Room with a navy bed runner, brass reading lamps and the city through a full-height window at dusk" loading="lazy">
+        <div class="room__b">
+          <h3>City Comfort Room</h3>
+          <p class="room__lede">Everything you need to settle in beautifully.</p>
+          <p class="room__copy">A calm, welcoming base for short visits, solo journeys and days spent discovering the city.</p>
+          <p class="room__cap">Sleeps up to two guests</p>
+          <div class="room__f">
+            <span><span class="n">&#8377;6,999</span><span class="l">per night</span></span>
+            <button class="btn btn--ghost" type="button" data-pick="city">Choose City Comfort</button>
+          </div>
+        </div>
+      </article>
+      <article class="room" data-room="business">
+        <img src="zo-assets/room-business.jpg" alt="Business Room with a cane headboard, a terracotta bed runner, a writing table by the window and an arched balcony" loading="lazy">
+        <div class="room__b">
+          <h3>Business Room</h3>
+          <p class="room__lede">A better pause between productive days.</p>
+          <p class="room__copy">A restful room for travelers who want to finish the day comfortably and begin the next one feeling refreshed.</p>
+          <p class="room__cap">Sleeps up to two guests</p>
+          <div class="room__f">
+            <span><span class="n">&#8377;8,499</span><span class="l">per night</span></span>
+            <button class="btn btn--ghost" type="button" data-pick="business">Choose Business Room</button>
+          </div>
+        </div>
+      </article>
+      <article class="room" data-room="family">
+        <img src="zo-assets/room-resort.jpg" alt="Family Room with a wide bed, a second bed beside it, a sofa and a balcony opening onto palms" loading="lazy">
+        <div class="room__b">
+          <h3>Family Room</h3>
+          <p class="room__lede">More space for your favorite people.</p>
+          <p class="room__copy">Settle in together, slow down after the day's adventures and enjoy a room designed for shared stays.</p>
+          <p class="room__cap">Sleeps up to four guests</p>
+          <div class="room__f">
+            <span><span class="n">&#8377;9,999</span><span class="l">per night</span></span>
+            <button class="btn btn--ghost" type="button" data-pick="family">Bring Everyone Along</button>
+          </div>
+        </div>
+      </article>
+      <article class="room" data-room="resort">
+        <img src="zo-assets/room-resortview.jpg" alt="Resort View Room with arched doors opening onto a balcony, palms, the pool below and the Arabian Sea beyond" loading="lazy">
+        <div class="room__b">
+          <h3>Resort View Room</h3>
+          <p class="room__lede">Let the holiday begin before you step outside.</p>
+          <p class="room__copy">Wake up to calming resort surroundings and keep the Goa feeling with you throughout your stay.</p>
+          <p class="room__cap">Sleeps up to three guests</p>
+          <div class="room__f">
+            <span><span class="n">&#8377;12,499</span><span class="l">per night</span></span>
+            <button class="btn btn--ghost" type="button" data-pick="resort">Choose Resort View</button>
+          </div>
+        </div>
+      </article>
+    </div>
+    <p class="fine">Room capacities are demo values. They are not published ZO Hotel data.</p>
+
+    <div class="quote" id="quote">
+      <div class="quote__h"><h3 id="quoteTitle">Review your booking</h3><span id="quoteDates"></span></div>
+      <div id="quoteBody">
+        <div class="quote__b">
+          <span class="quote__tot"><span class="n" id="quoteTotal">&#8377;0</span><span class="l" id="quoteBreak">Total for your stay</span></span>
+          <p class="quote__demo">Taxes and fees are not included in this demo. Cancellation and refund terms are set by the rate you book and are shown before you pay.</p>
+          <button class="btn" type="button" id="reserveBtn">Review Booking</button>
+        </div>
+      </div>
+      <div class="conf" id="confirmation" hidden>
+        <h3>Your ZO stay is confirmed.</h3>
+        <p class="conf__r"><span>Booking reference <b id="confRef">&mdash;</b></span><span>Stay <b id="confDates">&mdash;</b></span><span>Total <b id="confTotal">&mdash;</b></span></p>
+        <p class="info"><b>What happens next.</b> Keep your reference handy if you want to review, update or cancel your stay. Nothing here is stored on a server — this demo keeps your booking in this browser only.</p>
+        <div class="conf__a">
+          <button class="btn btn--ghost" type="button" id="changeBtn">Change Dates</button>
+          <button class="btn btn--ghost" type="button" id="compareBtn">Compare Destinations</button>
+          <button class="linkbtn" type="button" id="cancelBtn">Cancel Booking</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- STAY OPTIONS -->
+
+
+<!-- SHAPE YOUR STAY -->
+<div class="band">
+  <section class="wrap section" id="experience">
+    <div class="head">
+      <p class="eyebrow">Your ZO Experience</p>
+      <h2>The best stays leave room for you.</h2>
+      <p>Add a request to your booking. Each one is arranged wherever availability allows.</p>
+    </div>
+    <div class="cards" role="list">
+      <article class="card" role="listitem">
+        <h3>Arrive your way</h3>
+        <p>Driving to the hotel? Request on-site parking and make your arrival easier.</p>
+        <a class="card__go" href="#book">Request Parking</a>
+      </article>
+      <article class="card" role="listitem">
+        <h3>Begin a little earlier</h3>
+        <p>Arriving ahead of schedule? Ask about early check-in, subject to availability.</p>
+        <a class="card__go" href="#book">Ask About Early Check-In</a>
+      </article>
+      <article class="card" role="listitem">
+        <h3>Wake up to a better view</h3>
+        <p>Request a city or sea view and give every morning a more memorable beginning.</p>
+        <a class="card__go" href="#book">Choose My View</a>
+      </article>
+      <article class="card" role="listitem">
+        <h3>Make room for one more</h3>
+        <p>Traveling together? Request an extra bed for a more comfortable shared stay.</p>
+        <a class="card__go" href="#book">Add an Extra Bed</a>
+      </article>
+      <article class="card" role="listitem">
+        <h3>Feel at home at the table</h3>
+        <p>Share your vegetarian, non-vegetarian or Jain food preferences before arrival.</p>
+        <a class="card__go" href="#book">Share My Preferences</a>
+      </article>
+    </div>
+  </section>
+</div>
+
+<!-- DIRECT BOOKING -->
+<section class="wrap section" id="direct">
+  <div class="head">
+    <p class="eyebrow">Book direct</p>
+    <h2>The shortest way to ZO is direct.</h2>
+    <p>Book on the official ZO Hotel website and enjoy a clear path from choosing your destination to confirming your room.</p>
+  </div>
+  <ul class="ticks">
+    <li>Review the applicable booking terms</li>
+    <li>Pay using supported secure UPI or card options</li>
+    <li>Reach ZO booking support directly</li>
+  </ul>
+  <div class="acts">
+    <a class="btn" href="#book">Book Direct with ZO</a>
+    <a class="btn btn--ghost" href="#rooms">Compare Rooms</a>
+  </div>
+</section>
+
+<!-- BOOKING WITH CONFIDENCE -->
+<div class="band">
+  <section class="wrap section" id="confidence">
+    <div class="head">
+      <p class="eyebrow">Booking with confidence</p>
+      <h2>Confidence looks good on every journey.</h2>
+    </div>
+    <div class="cards" role="list">
+      <article class="card" role="listitem">
+        <h3>Your payment, protected</h3>
+        <p>Use supported UPI and card options through a secure booking experience.</p>
+      </article>
+      <article class="card" role="listitem">
+        <h3>Your room, prepared</h3>
+        <p>Every room is regularly cleaned and thoughtfully prepared before arrival.</p>
+      </article>
+      <article class="card" role="listitem">
+        <h3>Your information, respected</h3>
+        <p>Booking details are handled carefully and used to support your booking and stay.</p>
+      </article>
+      <article class="card" role="listitem">
+        <h3>Your choices, made clear</h3>
+        <p>Review the room details, price and applicable cancellation terms before confirming.</p>
+      </article>
+      <article class="card" role="listitem">
+        <h3>Your questions, welcomed</h3>
+        <p>Need help with a room, request or existing booking? Our booking support team is ready to assist.</p>
+      </article>
+    </div>
+  </section>
+</div>
+
+<!-- THE ZO CIRCLE -->
+<section class="wrap section circle" id="circle">
+  <div>
+    <p class="eyebrow">The ZO Circle</p>
+    <h2>The best journeys have a way of calling you back.</h2>
+    <p class="circle__p">Maybe Mumbai has another meeting waiting. Maybe Goa has another sunset. Join ZO Return Guest Benefits and stay connected to experiences worth returning for.</p>
+  </div>
+  <form class="circle__f" id="circleForm" novalidate>
+    <div class="fld">
+      <label for="cEmail">Email address</label>
+      <input type="email" id="cEmail" autocomplete="email" placeholder="you@example.com">
+    </div>
+    <div class="acts">
+      <button class="btn" type="submit">Join the ZO Circle</button>
+      <a class="btn btn--ghost" href="#book">Plan My Next ZO</a>
+    </div>
+    <p class="book__note" id="circleNote" role="status"></p>
+  </form>
+</section>
+
+<!-- FAQ + POLICY -->
+<div>
+  <section class="wrap section" id="faq">
+    <div class="two">
+      <div>
+        <div class="head">
+          <p class="eyebrow">Your stay, your choice</p>
+          <h2>What happens if your plans change</h2>
+          <p>Your choice remains yours. Here is what each route does.</p>
+        </div>
+        <div class="tw">
+          <table class="table">
+            <thead><tr><th scope="col">If you</th><th scope="col">What happens</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Change dates</th><td>Your booking and reference stay the same. Pick dates that fit your new plans.</td></tr>
+              <tr><th scope="row">Change room</th><td>Compare City Comfort, Business, Family and Resort View, and move to the one that fits.</td></tr>
+              <tr><th scope="row">Change destination</th><td>Move between ZO Hotel Mumbai and ZO Hotel Goa without starting a new booking.</td></tr>
+              <tr><th scope="row">Cancel booking</th><td>Available at every step. Refunds follow the policy attached to the rate you booked, shown before you pay.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <div class="head">
+          <p class="eyebrow">Before you book</p>
+          <h2>Good decisions begin with clear answers.</h2>
+        </div>
+        <div class="faq">
+          <div class="faq__i"><button class="faq__q" type="button" aria-expanded="false" aria-controls="faqp1" id="faqb1">Is Mumbai or Goa the right ZO for me?</button>
+            <div class="faq__a" id="faqp1" role="region" aria-labelledby="faqb1" hidden>Choose ZO Hotel Mumbai for business, city experiences and a convenient South Mumbai base near Marine Lines. Choose ZO Hotel Goa for a coastal break near Baga Beach, complete with relaxed resort surroundings.</div></div>
+          <div class="faq__i"><button class="faq__q" type="button" aria-expanded="false" aria-controls="faqp2" id="faqb2">Can I compare rooms before booking?</button>
+            <div class="faq__a" id="faqp2" role="region" aria-labelledby="faqb2" hidden>Yes. Explore the City Comfort, Business, Family and Resort View categories to find the room that best matches your trip.</div></div>
+          <div class="faq__i"><button class="faq__q" type="button" aria-expanded="false" aria-controls="faqp3" id="faqb3">What is included in the price shown?</button>
+            <div class="faq__a" id="faqp3" role="region" aria-labelledby="faqb3" hidden>The nightly rate for the room you choose, multiplied by the nights of your stay. Taxes and fees are not included in this demo, so the total you see is the room total only.</div></div>
+          <div class="faq__i"><button class="faq__q" type="button" aria-expanded="false" aria-controls="faqp4" id="faqb4">How do cancellations and refunds work?</button>
+            <div class="faq__a" id="faqp4" role="region" aria-labelledby="faqb4" hidden>Open your booking and choose Cancel booking. We will show you the alternatives first, then let you continue. Refunds are handled according to the policy attached to your booking.</div></div>
+          <div class="faq__i"><button class="faq__q" type="button" aria-expanded="false" aria-controls="faqp5" id="faqb5">Can I update my booking?</button>
+            <div class="faq__a" id="faqp5" role="region" aria-labelledby="faqb5" hidden>Open your booking and choose Change Dates or Compare Destinations. Your reference stays the same, so there is no need to cancel and start again.</div></div>
+          <div class="faq__i"><button class="faq__q" type="button" aria-expanded="false" aria-controls="faqp6" id="faqb6">What if I need help deciding?</button>
+            <div class="faq__a" id="faqp6" role="region" aria-labelledby="faqb6" hidden>Our booking support team can help you understand the destinations, room categories, requests and booking terms.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<section class="closing">
+  <img src="zo-assets/goa-exterior.jpg" alt="">
+  <div class="closing__v"></div>
+  <div class="closing__in">
+    <p class="eyebrow">Perhaps the best part of your journey hasn't happened yet.</p>
+    <h2>One city to <em>energize</em> you. One coast to restore you.</h2>
+    <p>Stay close to Mumbai's momentum or wake up to Goa's gentler rhythm. Your next story has a place at ZO.</p>
+    <div class="cta-row">
+      <a class="btn btn--light" href="#book">Find My ZO Stay</a>
+      <a class="btn btn--edge" href="#destinations">Explore Mumbai</a>
+      <a class="btn btn--edge" href="#destinations">Escape to Goa</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="foot__brand">
+        <div class="foot__b">ZO Hotel</div>
+        <p class="foot__addr">ZO Hotel Mumbai &mdash; near Marine Lines, South Mumbai.<br>ZO Hotel Goa &mdash; near Baga Beach, North Goa.</p>
+      </div>
+      <div><h3>Destinations</h3><ul>
+        <li><a href="#destinations">Stay in Mumbai</a></li>
+        <li><a href="#destinations">Escape to Goa</a></li>
+        <li><a href="#destinations">Compare both</a></li>
+      </ul></div>
+      <div><h3>Rooms</h3><ul>
+        <li><a href="#rooms">City Comfort Room</a></li>
+        <li><a href="#rooms">Business Room</a></li>
+        <li><a href="#rooms">Family Room</a></li>
+        <li><a href="#rooms">Resort View Room</a></li>
+      </ul></div>
+      <div><h3>Your booking</h3><ul>
+        <li><a href="#direct">Book direct with ZO</a></li>
+        <li><a href="#confidence">Booking with confidence</a></li>
+        <li><a href="#book">Check availability</a></li>
+        <li><a href="#faq">Change your dates</a></li>
+        <li><a href="#faq">Cancellation and refunds</a></li>
+      </ul></div>
+      <div><h3>Help</h3><ul>
+        <li><a href="#circle">The ZO Circle</a></li>
+        <li><a href="#faq">FAQs</a></li>
+        <li><a href="#faq">What happens if plans change</a></li>
+      </ul></div>
+    </div>
+    <div class="foot__l">
+      <span>Direct website booking &middot; Cancellation and refunds according to policy</span>
+      <span>A demonstration site. No real booking is created and no money is charged.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Reconsideration prompt.
+     Follows the ZO content style guide §12a: the heading, the message and the button
+     all carry the same action verb, and it never asks whether you are sure.
+     "Continue cancellation" stays visible and enabled (§13). -->
+<div class="scrim" id="scrim" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle" aria-describedby="mMsg">
+    <img id="mImg" src="zo-assets/lobby.jpg" alt="">
+    <div class="modal__b">
+      <p class="modal__e" id="mEyebrow">Your journey can still happen</p>
+      <h2 id="mTitle">Change your dates instead</h2>
+      <p id="mMsg">Change your dates and keep the stay. Pick dates that fit your new plans, or switch between Mumbai and Goa.</p>
+      <div class="modal__opts" id="mOpts"></div>
+      <p class="modal__re">No pressure. Review your options and choose what feels right for you.</p>
+    </div>
+    <div class="modal__a">
+      <button class="linkbtn" type="button" id="mContinue">Continue Cancellation</button>
+      <button class="btn btn--ghost" type="button" id="mBack">Return to Booking</button>
+      <button class="btn" type="button" id="mPrimary">Change My Dates</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden role="status"><span id="toastMsg"></span><button type="button" id="toastUndo" hidden>Undo</button></div>
+
+
+<script src="zo-site.js"></script>
+</body></html>

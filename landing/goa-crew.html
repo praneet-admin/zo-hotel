@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zo Hotel | Goa for families and groups, Mumbai for the business traveler</title>
+<meta name="description" content="Booking Zo Hotel for a group, in Goa or Mumbai? Rooms side by side in Goa, a quiet floor in Mumbai. You see the full price before you pay, and new dates cost only that night&rsquo;s rate.">
+<meta name="theme-color" content="#0f2340">
+<meta name="color-scheme" content="light">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&amp;family=Inter:wght@400;500;600&amp;display=swap">
+<link rel="stylesheet" href="goa-crew.css?v=60">
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+
+<div class="topbar">
+  <div class="topbar__in">
+    <span>Two destinations &middot; Goa and Mumbai</span>
+    <span><b>Zo Circle</b> &nbsp;|&nbsp; +91 832 400 0200 &nbsp;|&nbsp; EN &middot; &#8377; INR</span>
+  </div>
+</div>
+<nav class="nav" aria-label="Zo Hotel">
+  <div class="nav__in">
+    <a class="brand" href="../zo_hotel.html"><span class="brand__m" aria-hidden="true"></span><span class="brand__t">Zo <i>Hotel</i></span></a>
+    <div class="nav__r">
+      <a href="#rooms">Rooms</a>
+      <a href="#included">Why Zo</a>
+      <a href="#destinations">Destinations</a>
+      <a href="#plans">Plans changed</a>
+      <a href="#block">My Hold</a>
+      <a class="cta cta--quiet" href="../zo_hotel.html">Log In</a>
+      <a class="cta cta--gold" href="#widget">Hold Rooms</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO + WIDGET ------------------------------------------------------ -->
+<header class="cine" id="top">
+  <div class="cine__stage" id="cineStage" aria-hidden="true">
+    <video class="cine__video" id="cineVideo" muted loop playsinline preload="metadata" poster="../zo-assets/goa-pool.jpg">
+      <source src="../zo-assets/hero.mp4" type="video/mp4">
+    </video>
+    <div class="cine__f is-on" style="--img:url('../zo-assets/goa-pool.jpg')"></div>
+    <div class="cine__f" style="--img:url('../zo-assets/goa-exterior.jpg')"></div>
+    <div class="cine__f" style="--img:url('../zo-assets/room-resortview.jpg')"></div>
+    <div class="cine__f" style="--img:url('../zo-assets/lobby.jpg')"></div>
+  </div>
+  <div class="cine__veil" aria-hidden="true"></div>
+
+  <div class="cine__copy">
+    <p class="kicker">Zo Hotel &middot; Goa and Mumbai</p>
+    <h1>Together in Goa.<br>On time in Mumbai.</h1>
+    <p class="dek" id="heroDek">Rooms side by side in Goa. A quiet floor and an easy morning in Mumbai.</p>
+  </div>
+
+  <button class="cine__pause" id="cinePause" aria-pressed="false">
+    <span class="cine__pi" aria-hidden="true"></span><span id="cinePauseT">Pause the view</span>
+  </button>
+</header>
+
+<div class="wrap widget__wrap">
+  <form class="widget" id="widget" novalidate aria-labelledby="widgetH">
+    <h2 id="widgetH" class="vh">Hold rooms for your group</h2>
+    <div class="widget__grid">
+      <label class="wf"><span>Destination</span>
+        <select id="wDest"><option value="goa">Zo Hotel Goa</option><option value="mumbai">Zo Hotel Mumbai</option></select></label>
+      <label class="wf"><span>Check-in <i>*</i></span><input type="date" id="wIn" required></label>
+      <label class="wf"><span>Check-out <i>*</i></span><input type="date" id="wOut" required></label>
+      <label class="wf"><span>Guests</span><input type="number" id="wPeople" aria-label="How many of you" min="2" max="12" value="6" inputmode="numeric"></label>
+      <label class="wf"><span>Organizer name</span><input type="text" id="wName" placeholder="Name on the hold" autocomplete="name"></label>
+      <div class="widget__go"><button class="cta cta--gold" type="submit">Check Availability</button></div>
+    </div>
+    <p class="widget__note" id="wNote" role="status"></p>
+  </form>
+</div>
+
+<main id="main">
+
+<section class="sec" id="rooms">
+  <div class="wrap">
+    <div class="head head--c">
+      <h2>Choose the room you want</h2>
+      <p class="lede lede--c" id="roomsLede">Goa rooms are sized for families and groups; Mumbai rooms for one person, a laptop and an early flight.</p>
+    </div>
+    <div class="seg" role="group" aria-label="Choose the hotel">
+      <button type="button" class="seg__b is-on" data-prop="goa">Goa</button>
+      <button type="button" class="seg__b" data-prop="mumbai">Mumbai</button>
+    </div>
+    <div class="rooms" id="roomCards"></div>
+    <p class="fine fine--c" id="roomsFine"></p>
+  </div>
+</section>
+
+<section class="sec sec--cream" id="included">
+  <div class="wrap">
+    <div class="head head--c">
+      <h2>Why guests choose Zo</h2>
+    </div>
+    <div class="three">
+      <article class="card three__c"><img src="../zo-assets/feat-clear.jpg" alt="At the front desk, a receptionist points to the bill while the guest checks the same booking on their phone" loading="lazy"><div class="card__b">
+        <h3>Everything clear before you pay</h3>
+        <p>What you pay, what the room has and what&rsquo;s included is shown upfront. No hidden charges at checkout.</p>
+      </div></article>
+      <article class="card three__c"><img src="../zo-assets/feat-transfer.jpg" alt="A Zo driver loads a family's bags into the car at the airport" loading="lazy"><div class="card__b">
+        <h3>Free pickup, however you arrive</h3>
+        <p>Airport, railway station or bus stand: on stays of three nights or more, a driver meets you and carries the bags, in Goa or Mumbai.</p>
+      </div></article>
+      <article class="card three__c"><img src="../zo-assets/feat-kids.jpg" alt="A staff member plays a picture-block game with young children at the hotel daycare" loading="lazy"><div class="card__b">
+        <h3>Daycare for kids, so you get time too</h3>
+        <p>Supervised play and activities for children, with trained staff, while you enjoy the spa, the beach or a quiet dinner.</p>
+      </div></article>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="destinations">
+  <div class="wrap">
+    <div class="head head--c"><h2>Know what&rsquo;s outside the door before you book</h2><p class="lede lede--c">One address is for staying put with your people. One is for leaving on time.</p></div>
+    <div class="dest">
+      <article class="card dest__c"><img src="../zo-assets/dest-goa.jpg" alt="A child paddles in the shallow end of the lagoon pool while a parent reads on a lounger" loading="lazy"><div class="card__b">
+        <p class="eyebrow">North Goa</p>
+        <h3>Zo Hotel Goa</h3>
+        <p>Here the lagoon pool has a shallow children&rsquo;s end, so the six-year-old paddles while you read. The limit: Baga&rsquo;s clubs are a 10-to-15-minute taxi, not a walk, and there is no nightclub in-house. Evenings here are dinner on site and the pool terrace, which goes quiet at 11&nbsp;p.m.</p>
+        <ul class="dots"><li>Airport about 20 minutes by car</li><li>Spa, three restaurants, 86 rooms and villas</li></ul>
+        <div class="room__f"><div><span>From</span><strong>&#8377;7,500</strong><span>per night</span></div><button class="cta cta--navy" type="button" data-prop="goa" data-go>Check Availability</button></div>
+      </div></article>
+      <article class="card dest__c"><img src="../zo-assets/dest-mumbai.jpg" alt="The Mumbai skyline across the bay from Marine Drive" loading="lazy"><div class="card__b">
+        <p class="eyebrow">Nariman Point, Mumbai</p>
+        <h3>Zo Hotel Mumbai</h3>
+        <p>Nariman Point, 32 floors of glass above the bay, where rooms for one sit high on the quiet side, so the city hums below, not next door. The limit: this is a city, not a beach, and the rooftop pool closes at 10&nbsp;p.m. It opens at 6:00&nbsp;a.m., for a swim before the meeting.</p>
+        <ul class="dots"><li>Airport about 25 minutes by car</li><li>Five minutes from Marine Drive for the early walk</li></ul>
+        <div class="room__f"><div><span>From</span><strong>&#8377;6,500</strong><span>per night</span></div><button class="cta cta--navy" type="button" data-prop="mumbai" data-go>Check Availability</button></div>
+      </div></article>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="block">
+  <div class="wrap">
+    <form class="blockcard" id="holdForm" novalidate>
+      <div class="blockcard__l">
+        <p class="eyebrow" id="blockEyebrow">Your block</p>
+        <h2 id="blockTitle">Pick dates above to see your corridor</h2>
+        <p class="fine" id="blockProp"></p>
+        <p class="step__out" id="datesOut" role="status"></p>
+
+        <div class="row row--top">
+          <span class="lab" id="mixLab">Rooms, cheapest first</span>
+          <button type="button" class="link" id="mixAuto">Suggest Again</button>
+        </div>
+        <div class="mix" id="mix"></div>
+        <p class="step__out" id="groupOut" role="status"></p>
+
+        <span class="lab" id="corridorLab">Your corridor</span>
+        <div class="corridor__row" id="corridor" aria-live="polite"></div>
+        <p class="fine" id="corridorOut"></p>
+      </div>
+
+      <aside class="blockcard__r">
+        <div class="bill">
+          <div><span id="perHeadLab">Each person</span><strong id="perHead">&mdash;</strong></div>
+          <div><span>Total room cost</span><strong id="totalOut" class="bill__sm">&mdash;</strong></div>
+          <p class="fine" id="billLine">&mdash;</p>
+        </div>
+        <button class="cta cta--gold cta--wide" type="submit" id="holdBtn">Hold These Rooms</button>
+        <button class="cta cta--quiet cta--wide" type="button" id="shareSplit">Send Split to Group</button>
+        <p class="calc__copied" id="shareStatus" role="status"></p>
+        <p class="step__out step__out--err" id="holdErr" role="alert"></p>
+        <p class="fine fine--c" id="blockFine">Free for 48 hours. Nothing is charged. Taxes and fees are not included in this demo.</p>
+      </aside>
+
+      <!-- hidden carriers so the script's headcount control still exists -->
+      <div hidden><output id="people">6</output><button type="button" data-step="people" data-d="1"></button><button type="button" data-step="people" data-d="-1"></button><div id="peopleList"></div></div>
+    </form>
+
+    <div class="blockcard manage" id="manage" hidden>
+      <div class="blockcard__l">
+        <span class="pill pill--ok" id="mgStatus">Held</span>
+        <p class="eyebrow" id="mgEyebrow">Your hold</p>
+        <h2><span id="mgHotel">Zo Hotel Goa</span> <small id="mgRef">ZO-GOA-0000</small></h2>
+        <p class="lede" id="mgLine"></p>
+        <div class="booked" id="bookedNote" hidden>
+          <b>You&rsquo;re booked.</b> <span id="bookedLine"></span>
+          <ul class="tick"><li>Each guest gets their own key at check-in</li><li>A driver meets your flight, train or bus on stays of three nights or more</li><li>Change dates from this page at the new dates&rsquo; rate; the rooms and rates come with you</li></ul>
+        </div>
+        <span class="lab" id="mgRoomsLab">Rooms blocked for you</span>
+        <div class="corridor__row" id="mgCorridor"></div>
+        <p class="fine" id="mgRooms"></p>
+        <div class="reqs" id="mgRequestsWrap" hidden>
+          <span class="lab">Your requests</span>
+          <ul class="reqs__list" id="mgRequests"></ul>
+        </div>
+      </div>
+      <aside class="blockcard__r">
+        <ul class="shares" id="mgShares"></ul>
+        <div class="acts acts--col">
+          <button class="cta cta--gold" type="button" data-mg="pay">Confirm the Hold</button>
+          <button class="cta cta--quiet" type="button" data-mg="dates">Change the Dates</button>
+          <button class="cta cta--quiet" type="button" data-mg="room">Change the Room</button>
+          <button class="cta cta--quiet" type="button" data-mg="request">Add a Request</button>
+          <button class="cta cta--quiet" type="button" data-mg="add">Add a Friend</button>
+          <button class="cta cta--quiet" type="button" data-mg="release">Release One Room</button>
+          <button class="cta cta--quiet cta--danger" type="button" data-mg="releaseAll" id="releaseAllBtn">Release All Rooms</button>
+        </div>
+        <p class="step__out" id="mgOut" role="status"></p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec--navy" id="plans">
+  <div class="wrap split">
+    <div>
+      <h2>Plans change. Your booking can too.</h2>
+      <p class="lede">A friend drops out, a meeting moves. Here is what happens.</p>
+      <ul class="tick tick--light">
+        <li>New dates? Pay that night&rsquo;s rate, shown first</li>
+        <li>One less person? One room goes, the rest keep their rate</li>
+        <li>New dates full? Your money becomes 12-month Zo credit</li>
+        <li>Nothing changes until you say yes</li>
+      </ul>
+      <a class="cta cta--gold" href="#block">Change Your Dates</a>
+    </div>
+    <div class="qa qa--light" id="qa">
+      <details open>
+        <summary>A friend dropped out. Is the Goa booking lost?</summary>
+        <div><p>No. Their room goes back, the other rooms keep their rate, and everyone&rsquo;s new share shows on the booking.</p></div>
+      </details>
+      <details>
+        <summary>My Mumbai meeting moved. Can my stay move too?</summary>
+        <div><p>Yes. Pick the new night and pay that night&rsquo;s rate. If it&rsquo;s full, your money becomes Zo credit for 12 months.</p></div>
+      </details>
+      <details>
+        <summary>My flight is late. Do I lose the room?</summary>
+        <div><p>No. The room is yours for the night you booked, and there&rsquo;s no extra charge for arriving late.</p></div>
+      </details>
+      <details>
+        <summary>We&rsquo;re a big group. Are there strict rules?</summary>
+        <div><p>No curfew. Just one rule: visitors who aren&rsquo;t staying sign in at the desk, as the law requires.</p></div>
+      </details>
+      <details>
+        <summary>Can anyone change my booking without me?</summary>
+        <div><p>No. Every change shows the new price first, and nothing happens until you approve it.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="reviews">
+  <div class="wrap">
+    <div class="head head--c">
+      <h2>What three guests noticed</h2>
+      <p class="lede lede--c">Sample data: these three are placeholder quotes written for this demo, standing in for real guests.</p>
+    </div>
+    <div class="revs">
+      <article class="card rev"><div class="card__b">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <p>&ldquo;The six-year-old paddled the shallow end all afternoon. The daycare gave us one quiet dinner on our own.&rdquo;</p>
+        <footer><span class="avatar">MK</span><div><b>Meera K.</b><small>Zo Hotel Goa &middot; family of five, four nights</small></div></footer>
+      </div></article>
+      <article class="card rev"><div class="card__b">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <p>&ldquo;Seven of us, three rooms, one corridor, and nobody&rsquo;s card took the hit. When one dropped out, the rates on our rooms didn&rsquo;t move.&rdquo;</p>
+        <footer><span class="avatar">AD</span><div><b>Arjun D.</b><small>Zo Hotel Goa &middot; seven friends, three rooms, long weekend</small></div></footer>
+      </div></article>
+      <article class="card rev"><div class="card__b">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <p>&ldquo;28th floor, quiet side; I heard nothing. Swam at 6:00&nbsp;a.m., breakfast in the car, in the chair by 8:45&nbsp;a.m. Mumbai did its job; I did mine.&rdquo;</p>
+        <footer><span class="avatar">PN</span><div><b>Priya N.</b><small>Zo Hotel Mumbai &middot; business traveler, one night, 9&nbsp;a.m. meeting</small></div></footer>
+      </div></article>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__in">
+    <div><span class="brand__t" style="color:#fff">Zo <i>Hotel</i></span><p class="fine" style="margin-top:.6rem">Two hotels, two kinds of trip &middot; Goa for the one organizing everyone, Mumbai for the one passing through.</p></div>
+    <div><h4>Zo Hotel Goa</h4><p>Candolim Beach Road, Candolim<br>North Goa 403515<br>+91 832 400 0200</p></div>
+    <div><h4>Zo Hotel Mumbai</h4><p>3 Marine Lines, Nariman Point<br>Mumbai 400021<br>+91 22 4000 2000<br><a href="../zo_hotel.html">See the main site</a></p></div>
+    <div><h4>Guest services</h4><p><a href="#block">Manage your hold</a><br><a href="#plans">Change your dates</a><br><a href="../zo_hotel.html">Zo Circle</a></p></div>
+  </div>
+  <div class="foot__legal"><div class="wrap"><span>&copy; 2026 Zo Hotel. Sample data &mdash; demonstration site. No booking made here is real and no payment is taken.</span><span>Goa &middot; Mumbai</span></div></div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden><span id="toastMsg"></span><button type="button" class="toast__undo" id="toastUndo" hidden>Undo</button><button type="button" class="toast__x" id="toastClose" aria-label="Dismiss">&times;</button></div>
+
+<!-- Review and pay -->
+<div class="sheet" id="reviewSheet" hidden>
+  <div class="sheet__scrim" data-close></div>
+  <div class="sheet__box" role="dialog" aria-modal="true" aria-labelledby="rvH">
+    <p class="sheet__tag">Review and pay</p>
+    <h2 id="rvH">Review your booking</h2>
+    <dl class="rv" id="rvList"></dl>
+    <p class="fine" id="rvPolicy"></p>
+    <fieldset class="pay">
+      <legend>Demo payment &mdash; no real money will be charged</legend>
+      <label><input type="radio" name="pay" value="card" checked> Demo card</label>
+      <label><input type="radio" name="pay" value="upi"> Demo UPI</label>
+    </fieldset>
+    <label class="chk" id="gstWrap"><input type="checkbox" id="rvGst"> Send the GST invoice to my company before checkout</label>
+    <div class="sheet__acts">
+      <button class="cta cta--gold" type="button" id="rvPay">Pay Securely</button>
+      <button class="cta cta--quiet" type="button" data-close>Return to Hold</button>
+    </div>
+  </div>
+</div>
+
+<!-- Change the dates -->
+<div class="sheet" id="datesSheet" hidden>
+  <div class="sheet__scrim" data-close></div>
+  <div class="sheet__box" role="dialog" aria-modal="true" aria-labelledby="cdH">
+    <p class="sheet__tag">Same rooms, new nights</p>
+    <h2 id="cdH">Change your dates</h2>
+    <p class="sheet__p">Your current booking stays exactly as it is until you confirm. Any price difference is shown here first.</p>
+    <div class="cd">
+      <label class="wf wf--box"><span>New check-in</span><input type="date" id="cdIn"></label>
+      <label class="wf wf--box"><span>New check-out</span><input type="date" id="cdOut"></label>
+    </div>
+    <dl class="rv" id="cdDiff"></dl>
+    <p class="step__out" id="cdNote" role="status"></p>
+    <div class="sheet__acts">
+      <button class="cta cta--gold" type="button" id="cdConfirm" disabled>Confirm New Dates</button>
+      <button class="cta cta--quiet" type="button" data-close>Keep Current Dates</button>
+    </div>
+  </div>
+</div>
+
+<!-- Change the room -->
+<div class="sheet" id="roomSheet" hidden>
+  <div class="sheet__scrim" data-close></div>
+  <div class="sheet__box" role="dialog" aria-modal="true" aria-labelledby="crH">
+    <p class="sheet__tag">Same dates, same guests</p>
+    <h2 id="crH">Change your room</h2>
+    <p class="sheet__p">Pick a room type for the whole stay. The new total and the difference are shown before you confirm.</p>
+    <div class="cr" id="crList"></div>
+    <dl class="rv" id="crDiff"></dl>
+    <div class="sheet__acts">
+      <button class="cta cta--gold" type="button" id="crConfirm" disabled>Confirm Room Change</button>
+      <button class="cta cta--quiet" type="button" data-close>Keep Current Room</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add a request -->
+<div class="sheet" id="reqSheet" hidden>
+  <div class="sheet__scrim" data-close></div>
+  <div class="sheet__box" role="dialog" aria-modal="true" aria-labelledby="rqH">
+    <p class="sheet__tag">Tell the desk</p>
+    <h2 id="rqH">Add a request</h2>
+    <p class="sheet__p">Requests go to the desk with your booking. We confirm what we can do, and say so when we can&rsquo;t.</p>
+    <div class="chips" id="rqChips"></div>
+    <label class="wf wf--box"><span>Anything else</span><input type="text" id="rqText" placeholder="One line is plenty" maxlength="140"></label>
+    <div class="sheet__acts">
+      <button class="cta cta--gold" type="button" id="rqAdd">Add Request</button>
+      <button class="cta cta--quiet" type="button" data-close>Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- PART A -->
+<div class="sheet" id="exitSheet" hidden>
+  <div class="sheet__scrim" data-close></div>
+  <div class="sheet__box" role="dialog" aria-modal="true" aria-labelledby="exitH" aria-describedby="exitB">
+    <p class="sheet__tag" id="exitTag">One room fewer, same trip</p>
+    <fieldset class="sheet__why">
+      <legend>What changed?</legend>
+      <label><input type="radio" name="why" value="drop" checked> One of us dropped out</label>
+      <label><input type="radio" name="why" value="dates"> Our dates moved</label>
+      <label><input type="radio" name="why" value="plan"> The whole plan changed</label>
+    </fieldset>
+    <h2 id="exitH">Keep the booking</h2>
+    <div id="exitB"></div>
+    <div class="sheet__acts">
+      <button class="cta cta--gold" type="button" id="exitPrimary">Keep the Booking</button>
+      <button class="cta cta--quiet" type="button" id="exitSecondary">Change the Dates</button>
+    </div>
+    <button class="sheet__go" type="button" id="exitGo">Continue Cancellation</button>
+  </div>
+</div>
+
+<script src="goa-crew.js?v=60"></script>
+</body>
+</html>
