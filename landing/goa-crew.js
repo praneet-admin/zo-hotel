@@ -229,6 +229,17 @@
           '<button type="button" data-mix="' + k + '" data-d="1" aria-label="One more ' + r.name + '">+</button></div></div>';
       }).join('');
     }
+    // With dates in the search form, each room card shows the stay's total.
+    function roomTotals (p) {
+      p = p || PROP;
+      var wi = document.getElementById('wIn'), wo = document.getElementById('wOut');
+      var a = wi && wi.value ? new Date(wi.value + 'T00:00:00') : null, b = wo && wo.value ? new Date(wo.value + 'T00:00:00') : null;
+      var n = a && b && b > a ? nightsBetween(a, b) : 0;
+      document.querySelectorAll('[data-tot]').forEach(function (s) {
+        var r = PROPS[p].rooms[s.dataset.tot];
+        s.textContent = n && r ? money(r.rate * n) + ' per room for ' + word(n) + (n === 1 ? ' night' : ' nights') : '';
+      });
+    }
     function renderRooms (p) {
       p = p || PROP;
       var R = PROPS[p].rooms;
@@ -237,9 +248,10 @@
         var r = R[k];
         return '<article class="room"><div class="room__img"><img src="../zo-assets/' + r.img + '" alt="' + r.alt + '" loading="lazy" width="700" height="460">' + (r.tag ? '<span class="room__tag">' + r.tag + '</span>' : '') + '</div><div class="room__b">' +
           '<h3>' + r.name + '</h3><p class="room__meta">' + r.meta + '</p>' + (r.plus ? '<p class="room__plus">' + r.plus + '</p>' : '<p class="room__plus" aria-hidden="true">&nbsp;</p>') + '<ul class="feat">' + r.perks.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>' +
-          '<div class="room__f"><div><span>From</span><strong>' + money(r.rate) + '</strong><span>per night</span></div>' +
+          '<p class="room__tot" data-tot="' + k + '"></p><div class="room__f"><div><span>From</span><strong>' + money(r.rate) + '</strong><span>per night</span></div>' +
           '<button class="cta cta--navy" type="button" data-room="' + k + '">Choose This Room</button></div></div></article>';
       }).join('');
+      roomTotals(p);
       var lede = document.getElementById('roomsLede'), fine = document.getElementById('roomsFine');
       if (lede) lede.textContent = PROPS[p].lede;
       if (fine) fine.textContent = PROPS[p].fine;
@@ -431,6 +443,8 @@
       var bl = document.getElementById('billLine');
       if (bl) bl.textContent = datesOk ? word(c.rooms.length).replace(/^./, function (ch) { return ch.toUpperCase(); }) + (c.rooms.length === 1 ? ' room' : ' rooms') + ' \u00d7 ' + word(c.nights) + (c.nights === 1 ? ' night' : ' nights') + '' : 'Your total appears once dates are set.';
       var hb = document.getElementById('holdBtn'); if (hb) hb.disabled = !datesOk;
+      var pl = document.getElementById('pickupLine');
+      if (pl) pl.textContent = !datesOk ? '' : c.nights >= 3 ? 'Free pickup from the airport, station or bus stand is included.' : 'Stay ' + (c.nights === 1 ? 'two more nights' : 'one more night') + ' and pickup from the airport, station or bus stand is free.';
 
       var fits = c.beds >= state.people && c.rooms.length > 0;
       var spare = c.beds - state.people;
@@ -508,7 +522,12 @@
       toast('Held \u00b7 ' + hold.ref + '. ' + heldMsg, function () { clear(); showForm('Hold undone. Nothing was charged.'); });
     });
 
-    function whenExpires () { var d = new Date(hold.expiresAt); return apDate(d) + ', ' + apTime(d); }
+    function whenExpires () {
+      var d = new Date(hold.expiresAt), h = Math.max(0, Math.floor((d - new Date()) / 3600000));
+      return apDate(d) + ', ' + apTime(d) + ' (' + (h >= 1 ? h + (h === 1 ? ' hour' : ' hours') : 'under an hour') + ' left)';
+    }
+    // Keep the countdown honest while the page stays open.
+    setInterval(function () { if (hold && hold.status !== 'confirmed' && !el.manage.hidden) showManage(''); }, 60000);
 
     function showManage (msg) {
       if (hold.prop && hold.prop !== PROP) { PROP = hold.prop; ROOMS = PROPS[PROP].rooms; renderMix(); renderRooms(); }
@@ -883,7 +902,7 @@
         say(wNote, apRange(a, b) + ' \u00b7 ' + word(n) + (n === 1 ? ' night' : ' nights') +
           (pk.nights ? '. These dates fall during ' + pk.names.join(' and ') + ', a peak period, so rooms fill early.' : '.'));
       };
-      wIn.addEventListener('change', liveDates); wOut.addEventListener('change', liveDates);
+      wIn.addEventListener('change', function () { liveDates(); roomTotals(); }); wOut.addEventListener('change', function () { liveDates(); roomTotals(); });
       document.getElementById('wDest').addEventListener('change', function () {
         var wp = document.getElementById('wPeople'); if (wp && !hold) wp.value = PROPS[this.value].defaultPeople; liveDates();
       });
@@ -971,6 +990,7 @@
       a.download = hold.ref + '.ics'; document.body.appendChild(a); a.click(); a.remove();
       toast('Calendar file saved. Open it to add your stay to your calendar.');
     });
+    document.getElementById('printConf').addEventListener('click', function () { window.print(); });
     document.getElementById('copyRef').addEventListener('click', function () {
       if (!hold) return;
       var ref = hold.ref;

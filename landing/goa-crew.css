@@ -627,3 +627,17 @@ em{font-style:italic;color:var(--gold-soft)}
   .widget__go{grid-column:1/-1;padding:.4rem .6rem .6rem}
   .widget__go .cta{width:100%}
 }
+
+/* functionality pass */
+.room__tot{display:block;margin-top:.25rem;font-size:.8rem;font-weight:600;color:var(--navy)}
+.room__tot:empty{display:none}
+.bill__pickup{margin-top:.5rem;font-size:.82rem;color:var(--gold-2,#e3c98a)}
+.bill__pickup:empty{display:none}
+@media print{
+  body *{visibility:hidden}
+  #manage,#manage *{visibility:visible}
+  #manage{position:absolute;left:0;top:0;width:100%;box-shadow:none;border:0}
+  #manage .acts,#manage .booked__acts,.toast{display:none!important}
+}
+.room__tot{margin-top:auto;padding:.5rem .75rem;border-radius:.6rem;background:var(--cream,#f6f1e7);font-size:.85rem;font-weight:600;color:var(--navy)}
+.room__tot + .room__f{margin-top:.6rem}

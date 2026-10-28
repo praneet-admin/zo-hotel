@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&amp;family=Inter:wght@400;500;600&amp;display=swap">
-<link rel="stylesheet" href="goa-crew.css?v=74">
+<link rel="stylesheet" href="goa-crew.css?v=77">
 </head>
 <body>
 <a class="skip" href="#main">Skip to main content</a>
@@ -163,6 +163,7 @@
           <div><span id="perHeadLab">Total for the stay</span><strong id="perHead">&mdash;</strong></div>
           <div hidden><span>Total room cost</span><strong id="totalOut" class="bill__sm">&mdash;</strong></div>
           <p class="fine" id="billLine">&mdash;</p>
+          <p class="bill__pickup" id="pickupLine"></p>
         </div>
         <button class="cta cta--gold cta--wide" type="submit" id="holdBtn">Hold These Rooms</button>
         <p class="calc__copied" id="shareStatus" role="status"></p>
@@ -183,7 +184,7 @@
         <div class="booked" id="bookedNote" hidden>
           <b>You&rsquo;re booked.</b> <span id="bookedLine"></span>
           <ul class="tick"><li>A driver meets your flight, train or bus on stays of three nights or more</li></ul>
-          <div class="booked__acts"><button class="cta cta--quiet" type="button" id="addCal">Add to Calendar</button><button class="cta cta--quiet" type="button" id="copyRef">Copy Reference</button></div>
+          <div class="booked__acts"><button class="cta cta--quiet" type="button" id="addCal">Add to Calendar</button><button class="cta cta--quiet" type="button" id="copyRef">Copy Reference</button><button class="cta cta--quiet" type="button" id="printConf">Print Confirmation</button></div>
         </div>
         <span class="lab" id="mgRoomsLab">Your rooms</span>
         <div class="corridor__row" id="mgCorridor"></div>
@@ -385,6 +386,6 @@
   </div>
 </div>
 
-<script src="goa-crew.js?v=74"></script>
+<script src="goa-crew.js?v=77"></script>
 </body>
 </html>
